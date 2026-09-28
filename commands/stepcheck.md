@@ -10,7 +10,9 @@ allowed-tools: WebSearch, WebFetch, Read, Write, mcp__claude-in-chrome, mcp__Cla
 
 **Guide folder:** `wagyu-output/<slug>/`, using the slug from the conversation. If it's unclear, list the folders in `wagyu-output/`: use the only one, or ask which guide.
 
-**Dependency:** A draft. If it is not in the conversation, read `wagyu-output/<slug>/04-draft.md`. Missing → "Run /draft first."
+**Dependency:** A draft. If it is not in the conversation, read `wagyu-output/<slug>/04-draft.md`.
+
+**No draft yet → pre-draft mode.** Verify only the open items from `02-research.md` (section 6): walk public pages live, check docs, and give the user the early walkthrough for the rest. Save the results to `05-stepcheck.md` under "Pre-draft checks" and end with: "Run /outline. Full step verification runs after /draft."
 
 ## 1. Verify each step
 
@@ -29,6 +31,9 @@ How:
 - **Public pages** (Ad Library, Keyword Planner landing pages, public help pages): walk through them live in the browser.
 - **Pages behind the user's accounts** (Search Console, Ads Manager, GA4): never sign in and never enter credentials. If the browser is already signed in and the user agrees, navigate read-only to confirm labels and screens. Never click save, create, publish, submit, delete, or anything that changes the account. Otherwise check against the official doc.
 - **Free-tier limits:** reopen each pricing or help page cited in research and confirm it again with today's date.
+- **Screenshots of public pages:** capture them yourself with headless Chrome instead of leaving a placeholder, then look at the image before using it:
+  `chrome --headless=new --hide-scrollbars --window-size=1100,1100 --virtual-time-budget=12000 --screenshot=wagyu-output/<slug>/screenshots/<name>.png "<URL>"`
+- **User screenshots:** before a screenshot goes into a guide or the public repo, check what else is visible (chat history, account names, other tabs). Crop it or keep it out.
 
 ## 2. User walkthrough checklist
 

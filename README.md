@@ -42,12 +42,13 @@ Languages: `id`, `en`, or `id+en`. The second language is localized after verifi
 
 ## Examples
 
-`examples/` holds the first test runs, every stage kept so you can see what each command produces. Both are marked TEST RUN: some steps are still unverified and the CTA points to a placeholder.
+`examples/` holds the first test runs, every stage kept so you can see what each command produces. The two Meta Ads runs are marked TEST RUN (some steps unverified, placeholder CTA). The competitor research run is complete.
 
 | Folder | Format | What's inside |
 |---|---|---|
 | `examples/meta-ads-claude/` | full, EN | Blueprint, research, outline, draft, stepcheck, the guide page, the paste-ready snippet, and the Google Docs HTML |
 | `examples/meta-ads-claude-lite/` | lite, EN + ID | The same stages in lite form, the nurture plan, the five nurture emails (EN + ID), and the pages and snippets in both languages |
+| `examples/riset-kompetitor-claude/` | lite, ID + EN | Every step verified (live, docs, or a walkthrough on the Claude Free plan), real CTA, no banner. Includes the early-walkthrough results in the stepcheck, the nurture plan, and pages and snippets in both languages |
 
 GitHub shows `.html` files as code. Download one and open it in a browser to see the page.
 
