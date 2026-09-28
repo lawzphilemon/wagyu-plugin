@@ -36,7 +36,7 @@ Languages: `id`, `en`, or `id+en`. The second language is localized after verifi
 
 ## Guide page
 
-`/finaldraft` builds the page with `scripts/build-guide.py` (needs Python 3 and [pandoc](https://pandoc.org/installing.html)) from the draft's page conventions, described in `commands/draft.md`. The result fills `assets/guide-template.html`, a self-contained page (no external requests, `noindex`) with scoped CSS under `.wg-guide`. Host it on an unlisted URL, or paste it into a WordPress Custom HTML block. Your email tool does the gating by sending the URL in the welcome email.
+`/finaldraft` builds the page with `scripts/build-guide.py` (needs Python 3 and [pandoc](https://pandoc.org/installing.html)) from the draft's page conventions, described in `commands/draft.md`. Brand themes live in `assets/themes/` (Gwenchana: `gwenchana.css`). The result fills `assets/guide-template.html`, a self-contained page (no external requests, `noindex`) with scoped CSS under `.wg-guide`. Host it on an unlisted URL, or paste it into a WordPress Custom HTML block. Your email tool does the gating by sending the URL in the welcome email.
 
 ## Development
 

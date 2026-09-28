@@ -6,6 +6,7 @@ import tempfile
 from pathlib import Path
 
 SCRIPT = Path(__file__).resolve().parent.parent / "scripts" / "build-guide.py"
+THEME = SCRIPT.parent.parent / "assets" / "themes" / "gwenchana.css"
 DRAFT = """Status: confirmed
 
 Free Guide · Test
@@ -115,14 +116,16 @@ def main():
         draft.write_text(DRAFT, encoding="utf-8")
         r = subprocess.run([sys.executable, str(SCRIPT), str(draft), str(out), "--lang", "en",
                             "--cta-url", "https://example.com/cta", "--snippet",
-                            "--img-base", "https://site.test/wp-content/uploads/2026/09/"], capture_output=True, text=True)
+                            "--img-base", "https://site.test/wp-content/uploads/2026/09/",
+                            "--theme", str(THEME)], capture_output=True, text=True)
         assert r.returncode == 0, r.stderr + r.stdout
         snip = out.read_text(encoding="utf-8")
     assert snip.startswith("<!-- Do a thing in 10 minutes: paste into a Custom HTML block.")
     for needle in ["<style>", '<div class="wg-guide">', "<script>", 'class="wg-btn" href="https://example.com/cta"',
                    '<img src="https://site.test/wp-content/uploads/2026/09/step-1.1.png"']:
         assert needle in snip, f"snippet missing: {needle}"
-    for banned in ["<html", "<head", "<body", "</body>", "<title>", "{{"]:
+    assert "--wg-btn-bg:#ECCE22" in snip, "theme not applied"
+    for banned in ["<html", "<head", "<body", "</body>", "<title>", "{{", "<link"]:
         assert banned not in snip, f"snippet has: {banned}"
     print("OK")
 

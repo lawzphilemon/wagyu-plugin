@@ -10,6 +10,8 @@ and screenshots become "[Insert image: ...]" markers.
 --snippet writes paste-ready HTML code (<style> + guide + <script>, no <html>/<head>) for a
 WordPress Custom HTML block or a page builder. The host page must be set to noindex itself.
 --img-base rewrites local screenshot paths to URL + file name, e.g. your media library folder.
+--theme appends a brand theme (assets/themes/*.css) to the page CSS; a "font-url:" line in it adds the
+font stylesheet to full pages.
 
 Needs pandoc on PATH (or the PANDOC environment variable). Draft conventions are in commands/draft.md.
 Exits 1 if any template placeholder, CTA_URL, or [NEEDS SOURCE] marker is left in the page.
@@ -144,6 +146,7 @@ def main():
     ap.add_argument("--brand-ink")
     ap.add_argument("--banner")
     ap.add_argument("--img-base")
+    ap.add_argument("--theme", help="CSS file with .wg-guide token overrides, e.g. assets/themes/gwenchana.css")
     mode = ap.add_mutually_exclusive_group()
     mode.add_argument("--docs", action="store_true")
     mode.add_argument("--snippet", action="store_true")
@@ -191,6 +194,12 @@ def main():
         page = page.replace("--wg-brand:#1f4fd1", f"--wg-brand:{a.brand}", 1)
     if a.brand_ink:
         page = page.replace("--wg-brand-ink:#ffffff", f"--wg-brand-ink:{a.brand_ink}", 1)
+    if a.theme:
+        css = Path(a.theme).read_text(encoding="utf-8")
+        page = page.replace("</style>", css.rstrip() + "\n</style>", 1)
+        font = re.search(r"font-url:\s*(\S+)", css)
+        if font and not a.snippet:  # a pasted snippet uses the host site's fonts
+            page = page.replace("<style>", f'<link rel="stylesheet" href="{html.escape(font[1])}">\n<style>', 1)
     if a.img_base:
         base = a.img_base.rstrip("/") + "/"
         page = re.sub(r'<img src="(?!https?://)([^"]+)"', lambda m: f'<img src="{base}{Path(m[1]).name}"', page)

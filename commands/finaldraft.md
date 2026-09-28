@@ -17,7 +17,7 @@ allowed-tools: Read, Write, Bash, WebFetch
 Ask in one message for anything missing:
 - CTA destination URL and button label. Never invent or reuse one from memory, and never write it into the plugin repo.
 - What premium includes, in the user's words, plus any price, threshold, or case study they want shown. Optional: leave out anything not supplied.
-- Brand colors as hex, or the website to read them from. Optional: the template default is used otherwise.
+- Brand theme: Gwenchana guides use `assets/themes/gwenchana.css`. For another brand, write a theme file in the same shape (the `--wg-*` tokens, checked for 4.5:1 text contrast) from its site's design tokens. Without one, the neutral template default is used.
 - Screenshots: image files in `wagyu-output/<slug>/screenshots/` or hosted image URLs, one per `[SCREENSHOT: ...]` placeholder. Optional: missing ones render as visible "screenshot needed" boxes. Local files must be uploaded next to the page when publishing.
 
 Apply the claim rules from the `gwenchana-offer` skill.
@@ -53,12 +53,12 @@ Localize the finished primary guide into the other language. This is adaptation,
 For each language, run the builder (needs Python 3 and pandoc):
 
 ```bash
-python "${CLAUDE_PLUGIN_ROOT}/scripts/build-guide.py" wagyu-output/<slug>/04-draft.md wagyu-output/<slug>/guide-<slug>-<lang>.html --lang <lang> --cta-url "<confirmed CTA URL>" [--brand "#hex" --brand-ink "#hex"] [--banner "TEST RUN: not for publishing"]
+python "${CLAUDE_PLUGIN_ROOT}/scripts/build-guide.py" wagyu-output/<slug>/04-draft.md wagyu-output/<slug>/guide-<slug>-<lang>.html --lang <lang> --cta-url "<confirmed CTA URL>" --theme "${CLAUDE_PLUGIN_ROOT}/assets/themes/gwenchana.css" [--banner "TEST RUN: not for publishing"]
 ```
 
 - It fills `assets/guide-template.html` from the draft's page conventions (see /draft), keeps `noindex, nofollow`, adds the table of contents, copy buttons, checkpoints, troubleshooting items, and the CTA block.
 - It exits with an error if a template placeholder, `CTA_URL`, `[NEEDS SOURCE]`, or an unconverted `[SCREENSHOT` is left. Fix the draft and rerun; never hand-edit around it.
-- Brand colors: keep the button text readable (contrast ratio 4.5:1 or more).
+- Themes set colors by role (link, eyebrow, CTA, button, code, font), so an accent that is unreadable as text (like Citron on white) stays on fills and borders.
 - Open the page in a browser and look at one step, one code block, the troubleshooting, and the CTA before delivering. Check it at phone width too.
 
 No Python or pandoc: copy `assets/guide-template.html` and fill it by hand with the same components. No double-brace placeholder may remain.

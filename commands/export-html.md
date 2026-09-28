@@ -10,7 +10,7 @@ allowed-tools: Read, Bash
 
 **Guide folder:** `wagyu-output/<slug>/`, using the slug from the conversation. If it's unclear, list the folders in `wagyu-output/`: use the only one, or ask which guide.
 
-**Dependency:** `04-draft.md` (and `04-draft-[lang].md` for a second language), best after /finaldraft. Use the same CTA URL, brand colors, and banner as the page. If `05-stepcheck.md` has `ACCEPTED-OPEN` steps, the banner is required.
+**Dependency:** `04-draft.md` (and `04-draft-[lang].md` for a second language), best after /finaldraft. Use the same CTA URL, theme, and banner as the page. If `05-stepcheck.md` has `ACCEPTED-OPEN` steps, the banner is required.
 
 ## 1. Ask where the screenshots will live
 
@@ -21,10 +21,10 @@ If the guide has screenshot files, ask for the folder URL they'll be uploaded to
 For each language:
 
 ```bash
-python "${CLAUDE_PLUGIN_ROOT}/scripts/build-guide.py" wagyu-output/<slug>/04-draft.md wagyu-output/<slug>/guide-<slug>-<lang>.snippet.html --lang <lang> --cta-url "<CTA URL>" --snippet [--img-base "<URL>"] [--brand "#hex" --brand-ink "#hex"] [--banner "..."]
+python "${CLAUDE_PLUGIN_ROOT}/scripts/build-guide.py" wagyu-output/<slug>/04-draft.md wagyu-output/<slug>/guide-<slug>-<lang>.snippet.html --lang <lang> --cta-url "<CTA URL>" --snippet --theme "${CLAUDE_PLUGIN_ROOT}/assets/themes/gwenchana.css" [--img-base "<URL>"] [--banner "..."]
 ```
 
-The file contains only `<style>`, the `.wg-guide` block, and the copy-button `<script>`. The CSS is scoped to `.wg-guide`, so it doesn't restyle the rest of the site.
+The file contains only `<style>`, the `.wg-guide` block, and the copy-button `<script>`. The CSS is scoped to `.wg-guide`, so it doesn't restyle the rest of the site. The snippet uses the site's own fonts: the Gwenchana site already loads Montserrat; elsewhere it falls back to the system font.
 
 ## 3. Deliver
 
