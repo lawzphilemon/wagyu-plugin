@@ -15,6 +15,7 @@ Ask for everything missing in one message:
 - Target reader: who they are, business type, current skill level.
 - Premium service line it ladders to: `seo-geo`, `meta-ads`, or `google-ads` (see the `gwenchana-offer` skill).
 - Language: `id`, `en`, or `id+en`. For `id+en`, which one is primary.
+- Format: `lite` or `full`. Recommend `lite` for lead magnets: one quick win a reader finishes in one sitting, with the deeper material moved into the nurture emails. `full` is a complete walkthrough.
 - Brand context: if a `context_profile.json` or brand profile exists in the project or conversation, read it. Otherwise skip.
 
 If the user has no topic yet, propose three from the `gwenchana-offer` idea list that fit the reader.
@@ -53,6 +54,7 @@ Result: [what they have at the end]
 Success check: [how the reader verifies it worked]
 Time to result: [e.g. 60 to 90 minutes]
 Language: [id | en | id+en, primary: xx]
+Format: [lite | full]
 Free-tool stack:
 | Tool | Used for | Account needed | Free-tier limit (unverified) |
 Costs outside tools: [ad budget / none]

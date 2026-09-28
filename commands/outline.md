@@ -54,6 +54,25 @@ NEXT WALL + PREMIUM (closing)
   The wall from the blueprint, the bridge, who it is not for, CTA.
 ```
 
+## Lite format
+
+When the blueprint says `Format: lite`, use this structure instead:
+
+```text
+HERO            Title, subtitle, chips (as above)
+RESULT          2-3 bullets of what the reader has + the success check, in one box
+STEPS           One `##` section, at most 5 steps, no phases. Pitfalls only where a reader would really get stuck.
+PROMPTS         1 to 3 copy-ready prompts (the quick win)
+QUICK FIXES     The top 3 friction points from research, symptom → fix
+CLOSING         Wall, bridge, not-for, CTA
+NURTURE PLAN    Not on the page. 3 to 4 emails, each carrying one block of the full material
+                (extra prompts, deeper checks, second safety layer, troubleshooting) plus one bridge to premium.
+```
+
+- Budget: about 1,000 words on the page, not counting prompt text.
+- Ladder points: at most 2 (after the last step, and the close).
+- Nothing is held back from the free path: moved material goes into the free emails, never behind the paywall.
+
 ## Rules for steps
 - One outcome per step. The clicks that lead to it go in a numbered list under the step. If a step produces two outcomes, split it.
 - Every step has a source from research. A step without one is marked `[NEEDS SOURCE]` for /stepcheck.

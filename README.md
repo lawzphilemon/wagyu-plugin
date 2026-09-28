@@ -32,6 +32,8 @@ Each guide gets its own folder, `wagyu-output/<slug>/` (slug set in `/blueprint`
 | `/export-docs` | Optional: the guide as a Google Doc for review or handoff (text and structure; screenshots inserted by hand) | Google Doc via the Drive connector |
 | `/export-html` | Optional: the guide as paste-ready HTML code (style + guide + script) for a WordPress Custom HTML block or page builder | `guide-<slug>-<lang>.snippet.html` |
 
+Formats: `lite` (one quick win, at most 5 steps, about 1,000 words; the deeper material becomes a nurture email plan) or `full` (complete walkthrough).
+
 Languages: `id`, `en`, or `id+en`. The second language is localized after verification, with UI labels as each interface shows them.
 
 ## Guide page

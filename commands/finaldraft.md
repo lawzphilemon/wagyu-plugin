@@ -32,12 +32,13 @@ Re-run the humanizer (`humanizer-id` / `humanizer-en`) silently, then check ever
 - [ ] **Executable:** every step has one outcome, numbered sub-actions with exact bold UI labels, and an expected result.
 - [ ] **Verified:** every step is `LIVE`, `DOC`, or `USER` in `05-stepcheck.md`. Any `ACCEPTED-OPEN` fails this item: test build only.
 - [ ] **Asset:** at least one complete, copy-ready asset.
-- [ ] **Troubleshooting:** covers the top friction points from research.
+- [ ] **Troubleshooting:** covers the top friction points from research (lite: the top 3).
 - [ ] **Nothing held back:** no "the full method is in premium" and no step that only works after buying.
 - [ ] **Ladder discipline:** at most 3 ladder points including the closing, none before the first checkpoint, none inside a phase.
 - [ ] **Honest close:** the closing names the wall, the bridge, and who premium is not for.
 - [ ] **Beats the alternatives:** each A5 angle from research is actually in the guide.
 - [ ] **Humanizer self-check passed.** No em dashes in body text.
+- [ ] **Lite fits (lite only):** at most 5 steps, about 1,000 words excluding prompts, and `04-nurture-plan.md` saved, with every block cut from the page placed in an email.
 
 Report the gate as a pass/fix list in chat (short), not the whole guide.
 
