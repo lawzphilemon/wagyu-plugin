@@ -43,11 +43,23 @@ Never submit opt-in forms or sign up. Use only what is publicly visible.
 
 From sections 1 to 4, write 3 to 5 concrete ways this guide will beat the alternatives. Examples: a verified step others skip, a ready-to-use asset nobody provides, troubleshooting for the top friction points, current screenshots where others are outdated, local context (Indonesian UI labels, IDR, local examples).
 
+## 6. Open items and the early walkthrough
+
+List every fact the steps depend on that you could not confirm from official docs or a live public page: things behind the reader's own accounts (what a free plan shows, whether a tool can read a page, how a paste lands in a sheet). Mark the ones whose answer changes **how a step is written** (for example "paste the link" vs "copy the page text").
+
+For those, write a short checklist the user can run now, before /outline, on the plan the reader will use (the free plan if the guide promises free tools):
+
+```text
+[ ] A. [what to do] → [what to report back or screenshot]
+```
+
+Ask the user to run it, or to skip it and let /outline mark those steps `[VERIFY]`. Record the answers in `wagyu-output/<slug>/05-stepcheck.md` under "Pre-draft checks" as `USER`.
+
 ## Save
 
 Save to `wagyu-output/<slug>/02-research.md` (overwrite if it exists) with the browsing mode and today's date, then deliver it in chat.
 
-End: "Run /outline to continue."
+End: "Run the early walkthrough above, or run /outline to continue."
 
 ## Rules
 - Never fabricate a step, UI label, limit, or source. Unknown stays unknown.

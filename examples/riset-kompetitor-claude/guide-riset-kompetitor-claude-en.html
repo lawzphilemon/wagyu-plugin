@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Research 3 competitors and their Meta ads in 45 minutes with free Claude</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&amp;display=swap">
+<style>
+.wg-guide{--wg-brand:#1f4fd1;--wg-brand-ink:#ffffff;--wg-ink:#16181d;--wg-muted:#596070;--wg-bg:#ffffff;--wg-soft:#f4f6fa;--wg-line:#e2e5ec;--wg-warn-bg:#fff7e6;--wg-warn:#8a4b00;--wg-ok:#0f7a4a;
+  background:var(--wg-bg);color:var(--wg-ink);font:17px/1.65 var(--wg-font,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);max-width:760px;margin:0 auto;padding:32px 16px 64px;box-sizing:border-box;overflow-wrap:anywhere}
+.wg-guide *,.wg-guide *::before,.wg-guide *::after{box-sizing:inherit}
+/* Reset what host themes commonly restyle when this is pasted into a site. Themes using IDs or !important still win. */
+.wg-guide h1,.wg-guide h2,.wg-guide h3{color:inherit;font-family:inherit;font-weight:700;text-transform:none;letter-spacing:normal}
+.wg-guide p,.wg-guide li{line-height:1.65}
+.wg-guide a{text-decoration:underline}
+.wg-guide ul:not([class]){list-style:disc}.wg-guide ol{list-style:decimal}
+.wg-guide pre,.wg-guide table,.wg-guide img{border:0;box-shadow:none}
+.wg-guide button{font-family:inherit;line-height:1.4}
+.wg-guide h1{font-size:clamp(28px,5vw,40px);line-height:1.2;margin:.2em 0 .4em}
+.wg-guide h2{font-size:26px;line-height:1.3;margin:2.2em 0 .5em;padding-top:.6em;border-top:1px solid var(--wg-line)}
+.wg-guide h3{font-size:19px;line-height:1.4;margin:1.8em 0 .4em}
+.wg-guide p,.wg-guide li{margin:.5em 0}
+.wg-guide a{color:var(--wg-link,var(--wg-brand))}
+.wg-guide code{background:var(--wg-soft);padding:.1em .35em;border-radius:4px;font-size:.92em}
+.wg-guide table{width:100%;border-collapse:collapse;font-size:15px;margin:1em 0;display:block;overflow-x:auto}
+.wg-guide th,.wg-guide td{border:1px solid var(--wg-line);padding:8px 10px;text-align:left;vertical-align:top}
+.wg-guide th{background:var(--wg-soft)}
+.wg-eyebrow{color:var(--wg-eyebrow,var(--wg-brand));font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0}
+.wg-sub{font-size:19px;color:var(--wg-muted);margin:0 0 1em}
+.wg-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.wg-chips li{margin:0;background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:999px;padding:4px 12px;font-size:14px}
+.wg-box{background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:var(--wg-radius,12px);padding:18px 20px;margin:1.4em 0}
+.wg-box>:first-child{margin-top:0}.wg-box>:last-child{margin-bottom:0}
+.wg-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.4em 0}.wg-cols .wg-box{margin:0}
+@media (max-width:600px){.wg-cols{grid-template-columns:1fr}}
+.wg-toc ol{margin:.4em 0 0;padding-left:1.3em}
+.wg-phase-meta{color:var(--wg-muted);font-size:15px;margin-top:-.2em}
+.wg-expect{border-left:3px solid var(--wg-ok);padding-left:12px}
+.wg-pitfall{background:var(--wg-warn-bg);color:var(--wg-warn);border-radius:8px;padding:10px 14px}
+.wg-shot{margin:1em 0}.wg-shot img{max-width:100%;height:auto;border:1px solid var(--wg-line);border-radius:8px}
+.wg-shot figcaption{color:var(--wg-muted);font-size:14px}
+.wg-shot-todo{border:2px dashed var(--wg-line);border-radius:8px;padding:28px 16px;text-align:center;color:var(--wg-muted);font-size:14px}
+.wg-code{position:relative;margin:1em 0}
+.wg-code pre{background:var(--wg-code-bg,#16181d);color:#f1f3f7;border-radius:10px;padding:16px;overflow-x:auto;font-size:14px;line-height:1.55;margin:0;white-space:pre-wrap}
+.wg-code pre code{background:none;padding:0;border-radius:0;color:inherit;font-size:inherit}
+.wg-copy{position:absolute;top:8px;right:8px;background:#2c313b;color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer}
+.wg-check{list-style:none;padding-left:0}
+.wg-check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.wg-check input{margin-top:.35em;width:18px;height:18px;accent-color:var(--wg-ok);flex:none}
+.wg-guide details{border:1px solid var(--wg-line);border-radius:10px;padding:10px 16px;margin:.6em 0}
+.wg-guide summary{cursor:pointer;font-weight:600}
+.wg-aside{border-left:3px solid var(--wg-brand);padding:4px 0 4px 14px;color:var(--wg-muted)}
+.wg-cta{background:var(--wg-cta-bg,var(--wg-brand));color:var(--wg-cta-ink,var(--wg-brand-ink));border-radius:var(--wg-radius,14px);padding:24px;margin:2em 0}
+.wg-cta h2{border:0;margin:0 0 .4em;padding:0;color:inherit}
+.wg-cta a:not(.wg-btn){color:inherit}
+.wg-cta a.wg-btn{display:inline-block;background:var(--wg-btn-bg,var(--wg-brand-ink));color:var(--wg-btn-ink,var(--wg-brand));font-weight:700;text-decoration:none;border-radius:10px;padding:12px 22px;margin-top:.6em}
+.wg-cta .wg-notfor{opacity:.85;font-size:15px}
+.wg-foot{color:var(--wg-muted);font-size:14px;margin-top:3em;border-top:1px solid var(--wg-line);padding-top:1em}
+/* Gwenchana brand theme for wagyu guide pages.
+   Tokens from the Gwenchana marketing site design system: Citron #ECCE22 accent, Obsidian #1E1E1E ink,
+   white surfaces, Montserrat. Derived shades are the site's oklch formulas converted to hex.
+   Citron is never used as text on white (1.57:1); it carries fills and borders, with Obsidian on top (10.65:1).
+   font-url: https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&display=swap */
+.wg-guide{
+  --wg-brand:#ECCE22;              /* citron: borders, fills */
+  --wg-brand-ink:#1E1E1E;          /* obsidian on citron */
+  --wg-ink:#1E1E1E;                /* text-primary */
+  --wg-muted:#5C5C5C;              /* text-secondary, obsidian-600 (6.69:1) */
+  --wg-bg:#FFFFFF;                 /* surface-page */
+  --wg-soft:#F5F5F5;               /* surface-sunken, obsidian-50 */
+  --wg-line:rgb(30 30 30 / .12);   /* border-default */
+  --wg-link:#1E1E1E;               /* text-link */
+  --wg-eyebrow:#1E1E1E;
+  --wg-warn-bg:#FFFFB7;            /* surface-accent-tint, citron-100 */
+  --wg-warn:#1E1E1E;
+  --wg-code-bg:#1E1E1E;            /* obsidian */
+  --wg-cta-bg:#1E1E1E;             /* surface-page-dark */
+  --wg-cta-ink:#FFFFFF;
+  --wg-btn-bg:#ECCE22;             /* surface-accent */
+  --wg-btn-ink:#1E1E1E;            /* text-on-accent */
+  --wg-radius:16px;                /* radius-lg */
+  --wg-font:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+.wg-guide a:hover{color:#A68800}   /* text-link-hover, citron-700 */
+.wg-guide .wg-eyebrow{display:inline-block;background:#ECCE22;border-radius:999px;padding:3px 12px;font-size:13px}
+.wg-guide .wg-pitfall{border-left:4px solid #ECCE22}
+.wg-guide .wg-aside{border-left-color:#ECCE22}
+.wg-guide .wg-cta a.wg-btn{border-radius:999px;box-shadow:0 8px 32px rgb(236 206 34 / .35)}
+.wg-guide .wg-toc a,.wg-guide .wg-aside a{text-decoration-color:#ECCE22;text-decoration-thickness:2px;text-underline-offset:3px}
+</style>
+</head>
+<body style="margin:0;background:#ffffff">
+<div class="wg-guide">
+<p class="wg-eyebrow">Free Guide · Competitor Research × Claude</p>
+<h1>Research 3 competitors and their Meta ads in 45 minutes with free Claude</h1>
+<p class="wg-sub">Prices, claims, and the ads they're running right now, in one Google Sheet plus 3 ideas you can test straight away. 100% free tools, no paid extension.</p>
+<ul class="wg-chips"><li>30–45 min</li><li>Beginner</li><li>Tool cost: $0</li></ul>
+<div class="wg-box">
+
+<p><strong>You'll finish with:</strong></p>
+<ul>
+<li>A Competitor Snapshot in Google Sheets for 3 competitors</li>
+<li>Their live Meta ads: angles, start dates, and where the ads send people</li>
+<li>3 gaps and 3 test ideas for your brand</li>
+</ul>
+<p><strong>It worked if:</strong> every row has a source link and a check date, and every test idea names the competitor ad it came from.</p>
+<p>On Claude Pro? Claude in Chrome can read your tabs directly and speeds up steps 2 and 4. This guide doesn't need it; that extension is for paid plans only.</p>
+</div>
+<nav class="wg-box wg-toc" aria-label="Contents"><strong>Contents</strong><ol><li><a href="#research-in-5-steps">Research in 5 steps</a></li><li><a href="#your-prompts">Your prompts</a></li><li><a href="#quick-fixes">Quick fixes</a></li></ol></nav>
+<h2 id="research-in-5-steps">Research in 5 steps</h2>
+<h3 id="step-1--pick-3-competitors">Step 1 — Pick 3 competitors</h3>
+<p>Choose the brands that sell most like you: same category, price range, and buyers. The biggest name in your category isn't always the most relevant one.</p>
+<ol type="1">
+<li>Write down 3 competitors, their websites, and their Instagram or Facebook account names.</li>
+<li>Open Google Sheets and create an empty sheet called <strong>Competitor Snapshot</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> a list of 3 competitors and an empty sheet ready to fill.</p>
+<h3 id="step-2--pull-their-website-data">Step 2 — Pull their website data</h3>
+<ol type="1">
+<li>In Claude, start a new chat, click <strong>+</strong> at the bottom left, and make sure <strong>Web search</strong> is checked.</li>
+<li>Copy <strong>Prompt A</strong> below, fill in the first competitor's name and website, and send it.</li>
+<li>Repeat for the second and third competitor, one message each.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> a product table with price, main claim, and a source link on every row.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Check the currency. In our test, Claude took dollar prices from a site's international version. If a competitor only sells on a marketplace like Shopee, Claude can't read the page. Open the shop, select all (Ctrl+A), copy, and paste the text into Claude.</p>
+<figure class="wg-shot"><img src="screenshots/langkah-2-web-search.png" alt="langkah 2 web search" loading="lazy"></figure>
+<h3 id="step-3--find-the-competitor-in-meta-ad-library">Step 3 — Find the competitor in Meta Ad Library</h3>
+<p>Ad Library shows every ad currently running on Facebook and Instagram. Anyone can open it without logging in.</p>
+<ol type="1">
+<li>Open <code>facebook.com/ads/library</code> and choose your country.</li>
+<li>Click <strong>Ad category</strong>, choose <strong>All ads</strong>, then <strong>APPLY</strong>. The search box only works after this.</li>
+<li>Type the competitor's name and pick the brand under <strong>Advertisers</strong>, not the "Search this exact phrase" line.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> the brand's page with the number of active ads above the list, for example "~670 results".</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> One brand can have several Pages, and many resellers use the brand name. Pick the one with the most followers and the official Instagram handle. Blank page or errors? Turn off your ad blocker for facebook.com.</p>
+<figure class="wg-shot"><img src="screenshots/langkah-3-ad-library-advertiser.png" alt="langkah 3 ad library advertiser" loading="lazy"></figure>
+<h3 id="step-4--copy-the-ad-text-and-let-claude-analyze-it">Step 4 — Copy the ad text and let Claude analyze it</h3>
+<p>Claude can't open Ad Library links because Meta blocks automated access. You can still copy the text.</p>
+<ol type="1">
+<li>Scroll slowly until about 20 to 30 ads have loaded.</li>
+<li>Press Ctrl+A, then Ctrl+C to copy all the text on the page.</li>
+<li>In Claude, turn <strong>Web search</strong> off, copy <strong>Prompt B</strong>, paste the Ad Library text under it, and send.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> the number of active ads, the 3 most-used angles, the longest-running ad, and where the ads send people.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Ad Library doesn't show budgets or results. An ad that has run for a long time is a hint that it might be working, not proof.</p>
+<h3 id="step-5--build-the-competitor-snapshot-and-3-test-ideas">Step 5 — Build the Competitor Snapshot and 3 test ideas</h3>
+<ol type="1">
+<li>Once all three competitors are done, send <strong>Prompt C</strong> in the same chat.</li>
+<li>Select only the table, copy it, and paste it into cell A1 of your sheet.</li>
+<li>Copy the gaps and test ideas below the table.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> one row per competitor, each column in its own cell, with source links and a check date.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> If Claude's opening sentence gets copied too, it lands in the first row. Start your selection at the table's column headers.</p>
+<figure class="wg-shot"><img src="screenshots/langkah-5-paste-sheets.png" alt="langkah 5 paste sheets" loading="lazy"></figure>
+<div class="wg-box"><p><strong>Checkpoint</strong></p>
+<ul class="wg-check">
+<li><label><input type="checkbox"> 3 competitors with website data and source links</label></li>
+<li><label><input type="checkbox"> Live ads analyzed for all three</label></li>
+<li><label><input type="checkbox"> Competitor Snapshot in Google Sheets with a check date</label></li>
+<li><label><input type="checkbox"> 3 test ideas, each naming the ad it's based on</label></li>
+</ul></div>
+<p class="wg-aside">You now know what your competitors are running. Those test ideas only pay off once they're turned into ads and tested every week. <a href="mailto:info@gwenchana.digital?subject=Competitor%20Research%20-%20Meta%20Ads">Email the Gwenchana team</a></p>
+<h2 id="your-prompts">Your prompts</h2>
+<p><strong>Prompt A: Website data</strong> (Step 2, one competitor per message)</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>Search the web and read [COMPETITOR NAME]&#39;s product pages on [COMPETITOR WEBSITE]. Take up to 5 main products.
+For each product give: product name, price in local currency, main claim, and the URL of the source page.
+Rules:
+- Use the site version for my country. If the price is in another currency, name the currency and don&#39;t convert it.
+- Don&#39;t guess. If a price or claim isn&#39;t on the page, write &quot;not found&quot;.
+Show it as a table.</code></pre></div>
+<p><strong>Prompt B: Ad analysis</strong> (Step 4, one competitor per message)</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>Below is text from Meta Ad Library for the advertiser [COMPETITOR NAME], active ads in my country. Analyze only this text. Don&#39;t guess.
+1. Number of active ads (the &quot;results&quot; number above the list).
+2. The 3 most frequent angles or messages. For each, give one example line from an ad and its Library ID.
+3. The longest-running ad: Library ID and its &quot;Started running on&quot; date.
+4. Where the ads send people (website, marketplace, WhatsApp, and so on) and the most used CTA.
+Remember: Ad Library shows no budget or results. Describe long-running ads as a hint, not proof.
+
+[PASTE AD LIBRARY TEXT HERE]</code></pre></div>
+<p><strong>Prompt C: Competitor Snapshot and test ideas</strong> (Step 5)</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>Combine all results in this chat into one Competitor Snapshot table, one row per competitor, with these columns:
+Competitor | Main products and prices | Main claim | Active ads | Top ad angles | Longest-running ad (date) | Where ads send people | Source links | Check date
+Check date: [TODAY&#39;S DATE].
+After the table, write 3 gaps the competitors leave open and 3 ad test ideas for my brand, [YOUR BRAND], which sells [YOUR PRODUCT]. Each idea must name the competitor and the Library ID of the ad it&#39;s based on.
+Start your answer with the table, no opening sentence.</code></pre></div>
+<h2 id="quick-fixes">Quick fixes</h2>
+
+
+<details><summary>1. Claude says it can't read the page</summary><p>Marketplace shops, Ad Library, and sites built with JavaScript often can't be read by Claude. Open the page yourself, select all, copy, and paste the text into Claude. If the text is messy, upload a screenshot with <strong>+</strong> &gt; <strong>Add files or photos</strong>.</p></details>
+<details><summary>2. Ad Library results mix in other brands or resellers</summary><p>You searched a keyword instead of picking an advertiser. Type the brand again and pick it under <strong>Advertisers</strong>. Check the follower count and the official handle.</p></details>
+<details><summary>3. You hit the Free plan's usage limit</summary><p>Long pages and many competitors in one chat use up the limit fast. Send one competitor per message, turn <strong>Web search</strong> off while pasting text, and wait for the reset. On the Free plan, limits reset every five hours.</p></details>
+<section class="wg-cta">
+
+<h2 id="whats-next-from-research-to-tested-ads">What's next: from research to tested ads</h2>
+<p>Your snapshot shows which angles competitors use and which gaps you could fill. What a sheet can't do: turn those ideas into creative, test them every week on a controlled budget, and read the results with tracking you can trust.</p>
+<p>Gwenchana turns research like this into Meta Ads campaigns that get tested every week, starting from the Starter tier.</p>
+<p>Not advertising on Meta yet, or still validating your product? Run this research first and repeat it monthly. Over the next week we'll email you prompts for reading competitor pricing and promos, 7 deeper research prompts, and a creative brief template built from competitor ads.</p>
+<p class="wg-notfor">Want to talk first? Email <a href="mailto:info@gwenchana.digital">info@gwenchana.digital</a> with your brand and the ads you're running.</p>
+<a class="wg-btn" href="mailto:info@gwenchana.digital?subject=Competitor%20Research%20-%20Meta%20Ads">Email Gwenchana about Meta Ads</a>
+</section>
+<p class="wg-foot">Checked on September 28, 2026. Meta and Claude change their screens often. If something looks different, start with the quick fixes.</p>
+</div>
+<script>
+document.querySelectorAll('.wg-guide .wg-copy').forEach(function (b) {
+  var label = b.textContent;
+  b.addEventListener('click', function () {
+    navigator.clipboard.writeText(b.nextElementSibling.innerText).then(function () {
+      b.textContent = '✓'; setTimeout(function () { b.textContent = label; }, 1500);
+    });
+  });
+});
+</script>
+</body>
+</html>
