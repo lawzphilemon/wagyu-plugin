@@ -3,10 +3,13 @@
 
 Usage:
   build-guide.py DRAFT.md OUT.html --lang en|id --cta-url URL
-                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--docs]
+                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--img-base URL] [--docs | --snippet]
 
 --docs writes plain HTML for Google Docs import instead of the page: no template, buttons, or script,
 and screenshots become "[Insert image: ...]" markers.
+--snippet writes paste-ready HTML code (<style> + guide + <script>, no <html>/<head>) for a
+WordPress Custom HTML block or a page builder. The host page must be set to noindex itself.
+--img-base rewrites local screenshot paths to URL + file name, e.g. your media library folder.
 
 Needs pandoc on PATH (or the PANDOC environment variable). Draft conventions are in commands/draft.md.
 Exits 1 if any template placeholder, CTA_URL, or [NEEDS SOURCE] marker is left in the page.
@@ -140,7 +143,10 @@ def main():
     ap.add_argument("--brand")
     ap.add_argument("--brand-ink")
     ap.add_argument("--banner")
-    ap.add_argument("--docs", action="store_true")
+    ap.add_argument("--img-base")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--docs", action="store_true")
+    mode.add_argument("--snippet", action="store_true")
     a = ap.parse_args()
     L = LABELS[a.lang]
 
@@ -185,6 +191,13 @@ def main():
         page = page.replace("--wg-brand:#1f4fd1", f"--wg-brand:{a.brand}", 1)
     if a.brand_ink:
         page = page.replace("--wg-brand-ink:#ffffff", f"--wg-brand-ink:{a.brand_ink}", 1)
+    if a.img_base:
+        base = a.img_base.rstrip("/") + "/"
+        page = re.sub(r'<img src="(?!https?://)([^"]+)"', lambda m: f'<img src="{base}{Path(m[1]).name}"', page)
+    if a.snippet:
+        style = re.search(r"<style>.*?</style>", page, flags=re.S)[0]
+        guide = page[page.index('<div class="wg-guide">'):page.index("</body>")].rstrip()
+        page = f"<!-- {plain_title}: paste into a Custom HTML block. Set this page to noindex. -->\n{style}\n{guide}\n"
 
     Path(a.out).write_text(page, encoding="utf-8")
     problems = {k: page.count(k) for k in ("{{", "CTA_URL", "[NEEDS SOURCE]", "[SCREENSHOT")}
