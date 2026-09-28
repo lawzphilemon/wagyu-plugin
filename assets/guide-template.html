@@ -7,7 +7,7 @@
 <title>{{TITLE}}</title>
 <!--
   WAGYU guide page template.
-  /finaldraft copies this file, replaces {{PLACEHOLDERS}}, and repeats the component blocks as needed.
+  /finaldraft copies this file, replaces every double-brace placeholder, and repeats the component blocks as needed.
   Everything is scoped under .wg-guide, so the <style> and the .wg-guide div can also be pasted
   into a WordPress Custom HTML block without touching the theme.
   Brand colors: change --wg-brand and --wg-brand-ink only.
@@ -42,6 +42,7 @@
 .wg-shot-todo{border:2px dashed var(--wg-line);border-radius:8px;padding:28px 16px;text-align:center;color:var(--wg-muted);font-size:14px}
 .wg-code{position:relative;margin:1em 0}
 .wg-code pre{background:#16181d;color:#f1f3f7;border-radius:10px;padding:16px;overflow-x:auto;font-size:14px;line-height:1.55;margin:0;white-space:pre-wrap}
+.wg-code pre code{background:none;padding:0;border-radius:0;color:inherit;font-size:inherit}
 .wg-copy{position:absolute;top:8px;right:8px;background:#2c313b;color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer}
 .wg-check{list-style:none;padding-left:0}
 .wg-check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}

@@ -8,7 +8,9 @@ allowed-tools: WebSearch, WebFetch, Read, Write, mcp__claude-in-chrome, mcp__Cla
 
 **Mission:** Collect the facts every step depends on, where readers get stuck, and what competing freebies leave out.
 
-**Dependency:** A confirmed blueprint. If it is not in the conversation, read `wagyu-output/01-blueprint.md`. It counts only when its first line is `Status: confirmed`. Missing → "Run /blueprint first."
+**Guide folder:** `wagyu-output/<slug>/`, using the slug from the conversation. If it's unclear, list the folders in `wagyu-output/`: use the only one, or ask which guide.
+
+**Dependency:** A confirmed blueprint. If it is not in the conversation, read `wagyu-output/<slug>/01-blueprint.md`. It counts only when its first line is `Status: confirmed`. Missing → "Run /blueprint first."
 
 Use Claude in Chrome if connected, otherwise the built-in browser, otherwise WebSearch/WebFetch. State which one was used.
 
@@ -17,7 +19,7 @@ Use Claude in Chrome if connected, otherwise the built-in browser, otherwise Web
 For each tool in the stack, find the vendor's current help or docs page for every task the guide needs.
 - Record: task, doc URL, the exact steps and UI labels the doc shows, and the doc's last-updated date if shown.
 - UI labels differ by interface language. Record the language the doc uses. If the guide language has a localized doc (for example the `hl=id` version of a Google help page), record those labels too.
-- If docs disagree or look outdated, note it for /verify.
+- If docs disagree or look outdated, note it for /stepcheck.
 
 ## 2. Free-tier limits
 
@@ -26,6 +28,8 @@ For each tool: is the needed feature free today, account requirements, card requ
 ## 3. Reader friction
 
 Search where real users ask for help: Reddit, vendor community forums (Google Search Central Community, Google Ads Community, Meta community), Quora, YouTube comments on top tutorials, and Indonesian communities reachable through search. Queries such as `[task] not working`, `[task] error`, `[task] gagal`, `[task] tidak muncul`.
+
+If a site can't be opened in the browser (Reddit often can't in the built-in browser), use the search result snippets, cite them as snippets, and say so in the saved research.
 
 Record the top 5 to 10 problems: the symptom in the user's words, the cause, the fix, and the source URL. These become troubleshooting and pitfalls.
 
@@ -41,7 +45,7 @@ From sections 1 to 4, write 3 to 5 concrete ways this guide will beat the altern
 
 ## Save
 
-Save to `wagyu-output/02-research.md` (overwrite if it exists) with the browsing mode and today's date, then deliver it in chat.
+Save to `wagyu-output/<slug>/02-research.md` (overwrite if it exists) with the browsing mode and today's date, then deliver it in chat.
 
 End: "Run /outline to continue."
 
