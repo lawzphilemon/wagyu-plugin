@@ -40,6 +40,17 @@ Languages: `id`, `en`, or `id+en`. The second language is localized after verifi
 
 `/finaldraft` builds the page with `scripts/build-guide.py` (needs Python 3 and [pandoc](https://pandoc.org/installing.html)) from the draft's page conventions, described in `commands/draft.md`. Brand themes live in `assets/themes/` (Gwenchana: `gwenchana.css`). The result fills `assets/guide-template.html`, a self-contained page (no external requests, `noindex`) with scoped CSS under `.wg-guide`. Host it on an unlisted URL, or paste it into a WordPress Custom HTML block. Your email tool does the gating by sending the URL in the welcome email.
 
+## Examples
+
+`examples/` holds the first test runs, every stage kept so you can see what each command produces. Both are marked TEST RUN: some steps are still unverified and the CTA points to a placeholder.
+
+| Folder | Format | What's inside |
+|---|---|---|
+| `examples/meta-ads-claude/` | full, EN | Blueprint, research, outline, draft, stepcheck, the guide page, the paste-ready snippet, and the Google Docs HTML |
+| `examples/meta-ads-claude-lite/` | lite, EN + ID | The same stages in lite form, the nurture plan, the five nurture emails (EN + ID), and the pages and snippets in both languages |
+
+GitHub shows `.html` files as code. Download one and open it in a browser to see the page.
+
 ## Development
 
 ```bash

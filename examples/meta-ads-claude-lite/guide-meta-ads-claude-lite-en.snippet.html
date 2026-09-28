@@ -1,0 +1,199 @@
+<!-- Connect Claude to your Meta Ads account in 15 minutes: paste into a Custom HTML block. Set this page to noindex. -->
+<style>
+.wg-guide{--wg-brand:#1f4fd1;--wg-brand-ink:#ffffff;--wg-ink:#16181d;--wg-muted:#596070;--wg-bg:#ffffff;--wg-soft:#f4f6fa;--wg-line:#e2e5ec;--wg-warn-bg:#fff7e6;--wg-warn:#8a4b00;--wg-ok:#0f7a4a;
+  background:var(--wg-bg);color:var(--wg-ink);font:17px/1.65 var(--wg-font,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);max-width:760px;margin:0 auto;padding:32px 16px 64px;box-sizing:border-box;overflow-wrap:anywhere}
+.wg-guide *,.wg-guide *::before,.wg-guide *::after{box-sizing:inherit}
+/* Reset what host themes commonly restyle when this is pasted into a site. Themes using IDs or !important still win. */
+.wg-guide h1,.wg-guide h2,.wg-guide h3{color:inherit;font-family:inherit;font-weight:700;text-transform:none;letter-spacing:normal}
+.wg-guide p,.wg-guide li{line-height:1.65}
+.wg-guide a{text-decoration:underline}
+.wg-guide ul:not([class]){list-style:disc}.wg-guide ol{list-style:decimal}
+.wg-guide pre,.wg-guide table,.wg-guide img{border:0;box-shadow:none}
+.wg-guide button{font-family:inherit;line-height:1.4}
+.wg-guide h1{font-size:clamp(28px,5vw,40px);line-height:1.2;margin:.2em 0 .4em}
+.wg-guide h2{font-size:26px;line-height:1.3;margin:2.2em 0 .5em;padding-top:.6em;border-top:1px solid var(--wg-line)}
+.wg-guide h3{font-size:19px;line-height:1.4;margin:1.8em 0 .4em}
+.wg-guide p,.wg-guide li{margin:.5em 0}
+.wg-guide a{color:var(--wg-link,var(--wg-brand))}
+.wg-guide code{background:var(--wg-soft);padding:.1em .35em;border-radius:4px;font-size:.92em}
+.wg-guide table{width:100%;border-collapse:collapse;font-size:15px;margin:1em 0;display:block;overflow-x:auto}
+.wg-guide th,.wg-guide td{border:1px solid var(--wg-line);padding:8px 10px;text-align:left;vertical-align:top}
+.wg-guide th{background:var(--wg-soft)}
+.wg-eyebrow{color:var(--wg-eyebrow,var(--wg-brand));font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0}
+.wg-sub{font-size:19px;color:var(--wg-muted);margin:0 0 1em}
+.wg-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.wg-chips li{margin:0;background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:999px;padding:4px 12px;font-size:14px}
+.wg-box{background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:var(--wg-radius,12px);padding:18px 20px;margin:1.4em 0}
+.wg-box>:first-child{margin-top:0}.wg-box>:last-child{margin-bottom:0}
+.wg-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.4em 0}.wg-cols .wg-box{margin:0}
+@media (max-width:600px){.wg-cols{grid-template-columns:1fr}}
+.wg-toc ol{margin:.4em 0 0;padding-left:1.3em}
+.wg-phase-meta{color:var(--wg-muted);font-size:15px;margin-top:-.2em}
+.wg-expect{border-left:3px solid var(--wg-ok);padding-left:12px}
+.wg-pitfall{background:var(--wg-warn-bg);color:var(--wg-warn);border-radius:8px;padding:10px 14px}
+.wg-shot{margin:1em 0}.wg-shot img{max-width:100%;height:auto;border:1px solid var(--wg-line);border-radius:8px}
+.wg-shot figcaption{color:var(--wg-muted);font-size:14px}
+.wg-shot-todo{border:2px dashed var(--wg-line);border-radius:8px;padding:28px 16px;text-align:center;color:var(--wg-muted);font-size:14px}
+.wg-code{position:relative;margin:1em 0}
+.wg-code pre{background:var(--wg-code-bg,#16181d);color:#f1f3f7;border-radius:10px;padding:16px;overflow-x:auto;font-size:14px;line-height:1.55;margin:0;white-space:pre-wrap}
+.wg-code pre code{background:none;padding:0;border-radius:0;color:inherit;font-size:inherit}
+.wg-copy{position:absolute;top:8px;right:8px;background:#2c313b;color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer}
+.wg-check{list-style:none;padding-left:0}
+.wg-check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.wg-check input{margin-top:.35em;width:18px;height:18px;accent-color:var(--wg-ok);flex:none}
+.wg-guide details{border:1px solid var(--wg-line);border-radius:10px;padding:10px 16px;margin:.6em 0}
+.wg-guide summary{cursor:pointer;font-weight:600}
+.wg-aside{border-left:3px solid var(--wg-brand);padding:4px 0 4px 14px;color:var(--wg-muted)}
+.wg-cta{background:var(--wg-cta-bg,var(--wg-brand));color:var(--wg-cta-ink,var(--wg-brand-ink));border-radius:var(--wg-radius,14px);padding:24px;margin:2em 0}
+.wg-cta h2{border:0;margin:0 0 .4em;padding:0;color:inherit}
+.wg-cta a:not(.wg-btn){color:inherit}
+.wg-cta a.wg-btn{display:inline-block;background:var(--wg-btn-bg,var(--wg-brand-ink));color:var(--wg-btn-ink,var(--wg-brand));font-weight:700;text-decoration:none;border-radius:10px;padding:12px 22px;margin-top:.6em}
+.wg-cta .wg-notfor{opacity:.85;font-size:15px}
+.wg-foot{color:var(--wg-muted);font-size:14px;margin-top:3em;border-top:1px solid var(--wg-line);padding-top:1em}
+/* Gwenchana brand theme for wagyu guide pages.
+   Tokens from the Gwenchana marketing site design system: Citron #ECCE22 accent, Obsidian #1E1E1E ink,
+   white surfaces, Montserrat. Derived shades are the site's oklch formulas converted to hex.
+   Citron is never used as text on white (1.57:1); it carries fills and borders, with Obsidian on top (10.65:1).
+   font-url: https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&display=swap */
+.wg-guide{
+  --wg-brand:#ECCE22;              /* citron: borders, fills */
+  --wg-brand-ink:#1E1E1E;          /* obsidian on citron */
+  --wg-ink:#1E1E1E;                /* text-primary */
+  --wg-muted:#5C5C5C;              /* text-secondary, obsidian-600 (6.69:1) */
+  --wg-bg:#FFFFFF;                 /* surface-page */
+  --wg-soft:#F5F5F5;               /* surface-sunken, obsidian-50 */
+  --wg-line:rgb(30 30 30 / .12);   /* border-default */
+  --wg-link:#1E1E1E;               /* text-link */
+  --wg-eyebrow:#1E1E1E;
+  --wg-warn-bg:#FFFFB7;            /* surface-accent-tint, citron-100 */
+  --wg-warn:#1E1E1E;
+  --wg-code-bg:#1E1E1E;            /* obsidian */
+  --wg-cta-bg:#1E1E1E;             /* surface-page-dark */
+  --wg-cta-ink:#FFFFFF;
+  --wg-btn-bg:#ECCE22;             /* surface-accent */
+  --wg-btn-ink:#1E1E1E;            /* text-on-accent */
+  --wg-radius:16px;                /* radius-lg */
+  --wg-font:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+.wg-guide a:hover{color:#A68800}   /* text-link-hover, citron-700 */
+.wg-guide .wg-eyebrow{display:inline-block;background:#ECCE22;border-radius:999px;padding:3px 12px;font-size:13px}
+.wg-guide .wg-pitfall{border-left:4px solid #ECCE22}
+.wg-guide .wg-aside{border-left-color:#ECCE22}
+.wg-guide .wg-cta a.wg-btn{border-radius:999px;box-shadow:0 8px 32px rgb(236 206 34 / .35)}
+.wg-guide .wg-toc a,.wg-guide .wg-aside a{text-decoration-color:#ECCE22;text-decoration-thickness:2px;text-underline-offset:3px}
+</style>
+<div class="wg-guide">
+<p class="wg-pitfall"><strong>TEST RUN: 3 steps are not yet verified and the CTA points to a placeholder. Not for publishing.</strong></p>
+<p class="wg-eyebrow">Free Guide · Meta Ads × Claude</p>
+<h1>Connect Claude to your Meta Ads account in 15 minutes</h1>
+<p class="wg-sub">Real performance reports from live data, read-only so Claude can't touch your budget. 100% free tools. Your ad budget stays separate.</p>
+<ul class="wg-chips"><li>15 min</li><li>Beginner friendly</li><li>Tool cost: $0</li></ul>
+<div class="wg-box">
+
+<p><strong>You'll finish with:</strong></p>
+<ul>
+<li>Claude connected to Meta's official Ads connector</li>
+<li>A read-only lock on Meta's side, so Claude can look but not change</li>
+<li>Your first performance report, from a prompt you can reuse every week</li>
+</ul>
+<p><strong>It worked if:</strong> Claude answers the report prompt with your real campaign numbers.</p>
+</div>
+<nav class="wg-box wg-toc" aria-label="Contents"><strong>Contents</strong><ol><li><a href="#connect-in-5-steps">Connect in 5 steps</a></li><li><a href="#your-prompts">Your prompts</a></li><li><a href="#quick-fixes">Quick fixes</a></li></ol></nav>
+<h2 id="connect-in-5-steps">Connect in 5 steps</h2>
+<h3 id="step-1--add-metas-connector-in-claude">Step 1 — Add Meta's connector in Claude</h3>
+<ol type="1">
+<li>In Claude, open <strong>Customize</strong> in the left menu, then <strong>Connectors</strong>.</li>
+<li>Click <strong>+</strong> at the top right of the Connectors panel and choose <strong>Add custom connector</strong>.</li>
+<li>Type <code>Meta Ads</code> in the first field and paste this address into the second:</li>
+</ol>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>https://mcp.facebook.com/ads</code></pre></div>
+<ol start="4" type="1">
+<li>Leave <strong>Advanced settings</strong> empty and click <strong>Add</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> Meta Ads under <strong>Not connected</strong>, with a <strong>CUSTOM</strong> badge.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Claude's free plan allows one custom connector. If you already have one, remove it first.</p>
+<figure class="wg-shot"><img src="screenshots/step-1.3-connector-form.png" alt="step 1.3 connector form" loading="lazy"></figure>
+<h3 id="step-2--sign-in-with-facebook-and-pick-one-portfolio">Step 2 — Sign in with Facebook and pick one portfolio</h3>
+<ol type="1">
+<li>Click <strong>Meta Ads</strong>, then <strong>Connect</strong>.</li>
+<li>Sign in with the Facebook account that manages your ad account. Nothing opens? Allow pop-ups for claude.ai and click <strong>Connect</strong> again.</li>
+<li>When Meta asks which business portfolios to share, tick only the one you'll use.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> Meta Ads marked as connected.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> <strong>Not yet verified:</strong> Claude can reach every portfolio you tick, client accounts included. Agencies: tick one.</p>
+<div class="wg-shot-todo">Screenshot needed: portfolio selection screen</div>
+<h3 id="step-3--check-that-meta-has-switched-your-account-on">Step 3 — Check that Meta has switched your account on</h3>
+<p>Meta is enabling this account by account. This check takes ten seconds and saves you from debugging a setup that's already fine.</p>
+<ol type="1">
+<li>Start a new chat, click <strong>+</strong> at the bottom left, open <strong>Connectors</strong>, and switch <strong>Meta Ads</strong> on.</li>
+<li>Paste the <strong>account check</strong> prompt from below and send it.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> your ad accounts listed with <code>is_ads_mcp_enabled: true</code>.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> <strong>Not yet verified:</strong> If it says <code>false</code>, your setup is fine. Meta just hasn't enabled that account yet. See quick fix 1.</p>
+<div class="wg-shot-todo">Screenshot needed: account check answer</div>
+<h3 id="step-4--lock-it-to-read-only">Step 4 — Lock it to read-only</h3>
+<p>Signing in also gives Claude permission to edit campaigns. One setting on Meta's side takes that away. You need full control of the business portfolio.</p>
+<ol type="1">
+<li>In Meta Business Suite, open <strong>Settings</strong>, then <strong>Ads MCP server</strong> under <strong>Integrations</strong>.</li>
+<li>Select your ad account and switch every action to <strong>Blocked</strong>.</li>
+<li>Test it: in a new chat, ask Claude to "create a paused campaign named WAGYU-TEST in act_[AD_ACCOUNT_ID]".</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> <strong>Take actions in this ad account</strong> marked as blocked, and Claude reporting that the request was denied.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> <strong>Not yet verified:</strong> No <strong>Ads MCP server</strong> in your settings? Meta is still rolling it out. Until then, don't ask Claude to change anything. The second lock, inside Claude, is in the email we send you in two days. If the test campaign does appear, it's paused and hasn't spent anything; delete it in Ads Manager.</p>
+<div class="wg-shot-todo">Screenshot needed: Ads MCP server rules, all blocked</div>
+<h3 id="step-5--run-your-first-performance-report">Step 5 — Run your first performance report</h3>
+<ol type="1">
+<li>Copy the <strong>first performance report</strong> prompt below.</li>
+<li>Replace <code>[AD_ACCOUNT_ID]</code> with the number from Step 3 (without <code>act_</code>) and send it.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> an overview table, your campaigns ranked, and three options for you to decide on. At the top, Claude names the dates, time zone, and attribution setting it used.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Numbers differ from Ads Manager? Set Ads Manager to the same dates and attribution setting Claude names, then compare again.</p>
+<div class="wg-shot-todo">Screenshot needed: report example, labeled as an illustration</div>
+<div class="wg-box"><p><strong>Checkpoint</strong></p>
+<ul class="wg-check">
+<li><label><input type="checkbox"> Meta Ads connected in Claude</label></li>
+<li><label><input type="checkbox"> <code>is_ads_mcp_enabled: true</code> for your account</label></li>
+<li><label><input type="checkbox"> Every action blocked in Business Suite</label></li>
+<li><label><input type="checkbox"> Your first report in hand</label></li>
+</ul></div>
+<p class="wg-aside">You can see what's happening in the account now. Results come from acting on it every week, and that part AI can't own for you. <a href="https://example.com/gwenchana-meta-ads-DUMMY">See how Gwenchana runs it</a></p>
+<h2 id="your-prompts">Your prompts</h2>
+<p><strong>Account check</strong> (Step 3)</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>Using the Meta Ads connector, list every ad account I can access with its name, account ID, currency, time zone, and is_ads_mcp_enabled (with the reason if it is false). Read only. Don&#39;t change anything.</code></pre></div>
+<p><strong>First performance report</strong> (Step 5, reuse it every week)</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>Read-only analysis. Don&#39;t change anything in the account.
+Ad account: act_[AD_ACCOUNT_ID]. Period: the last 30 complete days.
+At the top, state the exact dates, time zone, attribution setting, and currency you used.
+
+1. Overview: one table with spend, impressions, reach, CPM, CTR, CPC, results, cost per result, and ROAS if available.
+2. Campaigns: rank by cost per result, best to worst, with spend and results. Mark the top performers and the biggest budget drains.
+3. Ads: the 3 best and 3 worst by cost per result, with one line on why.
+4. Problems: the 3 issues costing the most money, with the numbers behind them.
+5. For me to decide: 3 options for the next 7 days. Describe each change; don&#39;t make it.
+Keep it short. Tables over paragraphs.</code></pre></div>
+<h2 id="quick-fixes">Quick fixes</h2>
+
+
+<details><summary>1. Claude connects, but Meta calls fail or show <code>is_ads_mcp_enabled: false</code></summary><p>Meta hasn't enabled that ad account yet, and you can't switch it on yourself. Try another ad account you manage, and run the account check again every week or two. Skip anyone who offers to "enable" it for a fee.</p></details>
+<details><summary>2. The Facebook login never opens</summary><p>Your browser blocked the pop-up. Allow pop-ups for claude.ai, then click <strong>Connect</strong> again.</p></details>
+<details><summary>3. It worked for weeks, then stopped</summary><p>Meta's access expires after about 60 days. Disconnect Meta Ads in <strong>Customize</strong> &gt; <strong>Connectors</strong> and connect it again.</p></details>
+<section class="wg-cta">
+
+<h2 id="whats-next-the-part-ai-cant-do-for-you">What's next: the part AI can't do for you</h2>
+<p>Claude can now read your account and tell you what's off. Results still come from what you do each week: fresh creative to test, budget calls that don't blow up your CPA, and tracking you can trust.</p>
+<p>Gwenchana runs Meta Ads end to end, starting from the Starter tier, while you keep watching every number with this setup.</p>
+<p class="wg-notfor">Testing with a small budget and enjoying doing it yourself? Keep going on your own first. Over the next week we'll email you the second safety lock, a 12-prompt weekly audit pack, and how to make Claude's numbers match Ads Manager.</p>
+<a class="wg-btn" href="https://example.com/gwenchana-meta-ads-DUMMY">Talk to Gwenchana about Meta Ads</a>
+</section>
+<p class="wg-foot">Checked on September 28, 2026. Meta and Claude change these screens often. If something looks different, start with the quick fixes.</p>
+</div>
+<script>
+document.querySelectorAll('.wg-guide .wg-copy').forEach(function (b) {
+  var label = b.textContent;
+  b.addEventListener('click', function () {
+    navigator.clipboard.writeText(b.nextElementSibling.innerText).then(function () {
+      b.textContent = '✓'; setTimeout(function () { b.textContent = label; }, 1500);
+    });
+  });
+});
+</script>
