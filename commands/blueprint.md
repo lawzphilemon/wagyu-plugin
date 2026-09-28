@@ -43,9 +43,10 @@ The guide must deliver the full promise without buying anything. If the promise 
 
 ## Step 5 — Save and confirm
 
-Save to `wagyu-output/01-blueprint.md` (overwrite if it exists), deliver it in chat, and ask for confirmation. On confirmation, apply requested changes and add `Status: confirmed` as the first line.
+Pick a short kebab-case slug for the guide (for example `meta-ads-claude`) and confirm it with the user. Every stage of this guide lives in `wagyu-output/<slug>/`, so several guides never overwrite each other. Save to `wagyu-output/<slug>/01-blueprint.md` (overwrite if it exists), deliver it in chat, and ask for confirmation. On confirmation, apply requested changes and add `Status: confirmed` as the first line.
 
 ```text
+Slug: [kebab-case]
 Promise: [one sentence]
 Reader: [who, business type, level]
 Result: [what they have at the end]

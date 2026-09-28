@@ -7,29 +7,36 @@
 <title>{{TITLE}}</title>
 <!--
   WAGYU guide page template.
-  /finaldraft copies this file, replaces {{PLACEHOLDERS}}, and repeats the component blocks as needed.
+  /finaldraft copies this file, replaces every double-brace placeholder, and repeats the component blocks as needed.
   Everything is scoped under .wg-guide, so the <style> and the .wg-guide div can also be pasted
   into a WordPress Custom HTML block without touching the theme.
-  Brand colors: change --wg-brand and --wg-brand-ink only.
+  Brand colors: override the --wg-* tokens, ideally through a theme file in assets/themes/.
 -->
 <style>
 .wg-guide{--wg-brand:#1f4fd1;--wg-brand-ink:#ffffff;--wg-ink:#16181d;--wg-muted:#596070;--wg-bg:#ffffff;--wg-soft:#f4f6fa;--wg-line:#e2e5ec;--wg-warn-bg:#fff7e6;--wg-warn:#8a4b00;--wg-ok:#0f7a4a;
-  background:var(--wg-bg);color:var(--wg-ink);font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:760px;margin:0 auto;padding:32px 16px 64px;box-sizing:border-box;overflow-wrap:anywhere}
+  background:var(--wg-bg);color:var(--wg-ink);font:17px/1.65 var(--wg-font,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);max-width:760px;margin:0 auto;padding:32px 16px 64px;box-sizing:border-box;overflow-wrap:anywhere}
 .wg-guide *,.wg-guide *::before,.wg-guide *::after{box-sizing:inherit}
+/* Reset what host themes commonly restyle when this is pasted into a site. Themes using IDs or !important still win. */
+.wg-guide h1,.wg-guide h2,.wg-guide h3{color:inherit;font-family:inherit;font-weight:700;text-transform:none;letter-spacing:normal}
+.wg-guide p,.wg-guide li{line-height:1.65}
+.wg-guide a{text-decoration:underline}
+.wg-guide ul:not([class]){list-style:disc}.wg-guide ol{list-style:decimal}
+.wg-guide pre,.wg-guide table,.wg-guide img{border:0;box-shadow:none}
+.wg-guide button{font-family:inherit;line-height:1.4}
 .wg-guide h1{font-size:clamp(28px,5vw,40px);line-height:1.2;margin:.2em 0 .4em}
 .wg-guide h2{font-size:26px;line-height:1.3;margin:2.2em 0 .5em;padding-top:.6em;border-top:1px solid var(--wg-line)}
 .wg-guide h3{font-size:19px;line-height:1.4;margin:1.8em 0 .4em}
 .wg-guide p,.wg-guide li{margin:.5em 0}
-.wg-guide a{color:var(--wg-brand)}
+.wg-guide a{color:var(--wg-link,var(--wg-brand))}
 .wg-guide code{background:var(--wg-soft);padding:.1em .35em;border-radius:4px;font-size:.92em}
 .wg-guide table{width:100%;border-collapse:collapse;font-size:15px;margin:1em 0;display:block;overflow-x:auto}
 .wg-guide th,.wg-guide td{border:1px solid var(--wg-line);padding:8px 10px;text-align:left;vertical-align:top}
 .wg-guide th{background:var(--wg-soft)}
-.wg-eyebrow{color:var(--wg-brand);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0}
+.wg-eyebrow{color:var(--wg-eyebrow,var(--wg-brand));font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0}
 .wg-sub{font-size:19px;color:var(--wg-muted);margin:0 0 1em}
 .wg-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
 .wg-chips li{margin:0;background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:999px;padding:4px 12px;font-size:14px}
-.wg-box{background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:12px;padding:18px 20px;margin:1.4em 0}
+.wg-box{background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:var(--wg-radius,12px);padding:18px 20px;margin:1.4em 0}
 .wg-box>:first-child{margin-top:0}.wg-box>:last-child{margin-bottom:0}
 .wg-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.4em 0}.wg-cols .wg-box{margin:0}
 @media (max-width:600px){.wg-cols{grid-template-columns:1fr}}
@@ -41,7 +48,8 @@
 .wg-shot figcaption{color:var(--wg-muted);font-size:14px}
 .wg-shot-todo{border:2px dashed var(--wg-line);border-radius:8px;padding:28px 16px;text-align:center;color:var(--wg-muted);font-size:14px}
 .wg-code{position:relative;margin:1em 0}
-.wg-code pre{background:#16181d;color:#f1f3f7;border-radius:10px;padding:16px;overflow-x:auto;font-size:14px;line-height:1.55;margin:0;white-space:pre-wrap}
+.wg-code pre{background:var(--wg-code-bg,#16181d);color:#f1f3f7;border-radius:10px;padding:16px;overflow-x:auto;font-size:14px;line-height:1.55;margin:0;white-space:pre-wrap}
+.wg-code pre code{background:none;padding:0;border-radius:0;color:inherit;font-size:inherit}
 .wg-copy{position:absolute;top:8px;right:8px;background:#2c313b;color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer}
 .wg-check{list-style:none;padding-left:0}
 .wg-check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
@@ -49,9 +57,10 @@
 .wg-guide details{border:1px solid var(--wg-line);border-radius:10px;padding:10px 16px;margin:.6em 0}
 .wg-guide summary{cursor:pointer;font-weight:600}
 .wg-aside{border-left:3px solid var(--wg-brand);padding:4px 0 4px 14px;color:var(--wg-muted)}
-.wg-cta{background:var(--wg-brand);color:var(--wg-brand-ink);border-radius:14px;padding:24px;margin:2em 0}
+.wg-cta{background:var(--wg-cta-bg,var(--wg-brand));color:var(--wg-cta-ink,var(--wg-brand-ink));border-radius:var(--wg-radius,14px);padding:24px;margin:2em 0}
 .wg-cta h2{border:0;margin:0 0 .4em;padding:0;color:inherit}
-.wg-cta a.wg-btn{display:inline-block;background:var(--wg-brand-ink);color:var(--wg-brand);font-weight:700;text-decoration:none;border-radius:10px;padding:12px 22px;margin-top:.6em}
+.wg-cta a:not(.wg-btn){color:inherit}
+.wg-cta a.wg-btn{display:inline-block;background:var(--wg-btn-bg,var(--wg-brand-ink));color:var(--wg-btn-ink,var(--wg-brand));font-weight:700;text-decoration:none;border-radius:10px;padding:12px 22px;margin-top:.6em}
 .wg-cta .wg-notfor{opacity:.85;font-size:15px}
 .wg-foot{color:var(--wg-muted);font-size:14px;margin-top:3em;border-top:1px solid var(--wg-line);padding-top:1em}
 </style>
