@@ -41,6 +41,10 @@ For English, use `Step 1.1`, `You should see`, and `Watch out`.
 - Address the reader directly (kamu/you). Paragraphs of at most 4 sentences. No transition fillers and no hype.
 - Never use em dashes in body text. (Step headings use the separator shown above.)
 
+## Lite format
+
+If the blueprint says `Format: lite`: one `##` section for the steps (no phase headings), at most 5 steps, 1 to 3 prompts, 3 quick fixes, about 1,000 words excluding prompt text. Write the outline's nurture plan to `wagyu-output/<slug>/04-nurture-plan.md` as a short brief per email (subject idea, the block it carries, the bridge line). The email copy itself is written later with an email skill.
+
 ## Page conventions
 
 /finaldraft builds the page from this file with `scripts/build-guide.py`, so keep this shape:
