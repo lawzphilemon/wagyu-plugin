@@ -72,6 +72,7 @@ Guide page ready:
 Screenshots still needed: [list or none]
 
 Publishing: host the page on an unlisted URL (or paste the <style> and .wg-guide block into a WordPress Custom HTML block, noindex). Put that URL in the welcome email of your email tool. The email tool handles the gate.
+Review copy for the team or a client: /export-docs (Google Docs).
 Next: opt-in page copy and the nurture sequence to premium (ai-geo-by-ivan:lead-magnets and ai-geo-by-ivan:emails, if installed).
 ```
 

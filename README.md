@@ -29,6 +29,7 @@ Each guide gets its own folder, `wagyu-output/<slug>/` (slug set in `/blueprint`
 | `/draft` | Full guide in the primary language, humanized | `04-draft.md` |
 | `/stepcheck` | Every step marked LIVE / DOC / USER (or ACCEPTED-OPEN for test runs), draft fixed in place | `05-stepcheck.md` |
 | `/finaldraft` | A5 quality gate, CTA, second language, guide page HTML | `guide-<slug>-<lang>.html` |
+| `/export-docs` | Optional: the guide as a Google Doc for review or handoff (text and structure; screenshots inserted by hand) | Google Doc via the Drive connector |
 
 Languages: `id`, `en`, or `id+en`. The second language is localized after verification, with UI labels as each interface shows them.
 

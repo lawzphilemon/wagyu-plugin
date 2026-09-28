@@ -96,6 +96,19 @@ def main():
                    '<p class="wg-foot">', 'href="#phase-1-start"']:
         assert needle in page, f"missing: {needle}"
     assert "{{" not in page and "CTA_URL" not in page and "What's next</a>" not in page
+
+    with tempfile.TemporaryDirectory() as d:
+        draft, out = Path(d, "04-draft.md"), Path(d, "guide.docs.html")
+        draft.write_text(DRAFT, encoding="utf-8")
+        r = subprocess.run([sys.executable, str(SCRIPT), str(draft), str(out), "--lang", "en",
+                            "--cta-url", "https://example.com/cta", "--docs"], capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr + r.stdout
+        doc = out.read_text(encoding="utf-8")
+    for needle in ["<title>Do a **thing** in 10 minutes</title>", "Insert image: screenshots/step-1.1.png",
+                   "Screenshot needed: the settings page", "☐ App open", "Not yet verified:",
+                   'href="https://example.com/cta"', "copy &lt;me&gt; &amp; keep"]:
+        assert needle in doc, f"docs missing: {needle}"
+    assert "<!-- wg:" not in doc and "<script" not in doc and "wg-copy" not in doc
     print("OK")
 
 

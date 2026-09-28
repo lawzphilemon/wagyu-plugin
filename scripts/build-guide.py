@@ -3,7 +3,10 @@
 
 Usage:
   build-guide.py DRAFT.md OUT.html --lang en|id --cta-url URL
-                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT]
+                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--docs]
+
+--docs writes plain HTML for Google Docs import instead of the page: no template, buttons, or script,
+and screenshots become "[Insert image: ...]" markers.
 
 Needs pandoc on PATH (or the PANDOC environment variable). Draft conventions are in commands/draft.md.
 Exits 1 if any template placeholder, CTA_URL, or [NEEDS SOURCE] marker is left in the page.
@@ -20,9 +23,9 @@ from pathlib import Path
 TEMPLATE = Path(__file__).resolve().parent.parent / "assets" / "guide-template.html"
 LABELS = {
     "en": {"expect": "You should see:", "pitfall": "Watch out:", "verify": "Not yet verified:",
-           "copy": "Copy", "toc": "Contents", "shot": "Screenshot needed:"},
+           "copy": "Copy", "toc": "Contents", "shot": "Screenshot needed:", "insert": "Insert image:"},
     "id": {"expect": "Hasil yang benar:", "pitfall": "Hati-hati:", "verify": "Belum diverifikasi:",
-           "copy": "Salin", "toc": "Daftar isi", "shot": "Screenshot dibutuhkan:"},
+           "copy": "Salin", "toc": "Daftar isi", "shot": "Screenshot dibutuhkan:", "insert": "Sisipkan gambar:"},
 }
 IMAGE = re.compile(r"\.(png|jpe?g|webp|gif|svg)$|^https?://", re.I)
 
@@ -112,6 +115,22 @@ def closing(h):
     return h + foot
 
 
+def docs_html(md, L, banner, title):
+    """Plain HTML that Google Docs imports cleanly: headings, lists, tables, code, links."""
+    md = re.sub(r"^<!-- /?wg:[a-z]+ -->\n?", "", md, flags=re.M)
+    md = md.replace("[VERIFY]", f"**{L['verify']}**")
+    md = re.sub(r"\n(Cause|Fix|Penyebab|Solusi):", r"  \n**\1:**", md)  # own line in Docs
+    md = re.sub(r"\[SCREENSHOT: (.*?)\]",
+                lambda m: f"*[{L['insert'] if IMAGE.search(m[1]) else L['shot']} {m[1]}]*", md)
+    if banner:
+        md = f"**{banner}**\n\n{md}"
+    body = re.sub(r'<li><label><input type="checkbox" (?:\w+="" )*/>(.*?)</label></li>',
+                  lambda m: f"<li>☐ {m[1]}</li>", pandoc(md), flags=re.S)
+    body = body.replace('<ul class="task-list">', "<ul>")  # Docs drops form inputs; keep a visible box
+    return (f'<!doctype html><html><head><meta charset="utf-8"><title>{title}</title></head>'
+            f"<body>{body}</body></html>")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("draft")
@@ -121,6 +140,7 @@ def main():
     ap.add_argument("--brand")
     ap.add_argument("--brand-ink")
     ap.add_argument("--banner")
+    ap.add_argument("--docs", action="store_true")
     a = ap.parse_args()
     L = LABELS[a.lang]
 
@@ -128,6 +148,15 @@ def main():
     if md.startswith("Status:"):
         md = md.split("\n", 1)[1]
     md = md.replace("CTA_URL", a.cta_url)
+    if a.docs:
+        title = next((l[2:].strip() for l in md.splitlines() if l.startswith("# ")), "Guide")
+        page = docs_html(md, L, a.banner, html.escape(title))
+        Path(a.out).write_text(page, encoding="utf-8")
+        left = {k: page.count(k) for k in ("CTA_URL", "[NEEDS SOURCE]") if page.count(k)}
+        print(f"{a.out}: {len(page)} bytes, {page.count(L['insert'])} images to insert, {page.count(L['shot'])} screenshots still needed")
+        if left:
+            sys.exit(f"Not ready, left in document: {left}")
+        return
     eyebrow, title, subtitle, chips, intro, body = split_hero(md)
 
     body_html = closing(transform(pandoc(body), L))
