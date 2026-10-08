@@ -53,7 +53,9 @@ If the blueprint says `Format: lite`: one `##` section for the steps (no phase h
 - **Intro boxes:** wrap the result preview in `<!-- wg:box -->` … `<!-- /wg:box -->`. For / not-for columns: `<!-- wg:cols -->` first column `<!-- wg:col -->` second column `<!-- /wg:cols -->`. Each marker on its own line.
 - **Sections:** `## ` for toolkit, phases, assets, troubleshooting, closing. `### ` for steps.
 - **Expected result and pitfall** labels exactly as in the step format above: `**You should see:**` / `**Hasil yang benar:**`, and a `> **Watch out:**` / `> **Hati-hati:**` quote. Any other `>` quote becomes a ladder aside.
-- **Screenshots:** `[SCREENSHOT: screenshots/<file>.png]` for an image you have (files in `wagyu-output/<slug>/screenshots/`), `[SCREENSHOT: what to capture]` for one still needed.
+- **Screenshots:** `[SCREENSHOT: screenshots/<file>.png | alt text]` for an image you have (files in `wagyu-output/<slug>/screenshots/`, or an image URL), `[SCREENSHOT: what to capture]` for one still needed. The alt text after ` | ` is optional; without it the file name is used. For images already in a media library, keep the file name here and pass the folder URL as `--img-base` at build time.
+- **Email gate (full guides behind an opt-in):** put `<!-- wg:gate -->` on its own line where the public preview ends and the gated guide starts. It stays in the HTML as a comment so the publisher knows where the form goes.
+- **No double braces:** never write `{{...}}` in the body (for example GTM variable syntax). The builder treats it as a leftover placeholder and refuses to build. Write "the `Const - Pixel ID` variable" instead.
 - **Unverified steps:** `[VERIFY]` inside the pitfall. It renders as a visible "Not yet verified" note.
 - **Checkpoints:** a bold-only line (`**Checkpoint**`) followed by `- [ ]` items.
 - **Troubleshooting:** put `<!-- wg:details -->` right after the heading. Each item starts with a bold title on its own line, followed by its cause and fix.

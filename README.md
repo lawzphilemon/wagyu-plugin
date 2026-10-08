@@ -30,7 +30,7 @@ Each guide gets its own folder, `wagyu-output/<slug>/` (slug set in `/blueprint`
 | `/stepcheck` | Every step marked LIVE / DOC / USER (or ACCEPTED-OPEN for test runs), draft fixed in place | `05-stepcheck.md` |
 | `/finaldraft` | A5 quality gate, CTA, second language, guide page HTML | `guide-<slug>-<lang>.html` |
 | `/export-docs` | Optional: the guide as a Google Doc for review or handoff (text and structure; screenshots inserted by hand) | Google Doc via the Drive connector |
-| `/export-html` | Optional: the guide as paste-ready HTML code (style + guide + script) for a WordPress Custom HTML block or page builder | `guide-<slug>-<lang>.snippet.html` |
+| `/export-html` | Optional: the guide as paste-ready HTML code for a WordPress Custom HTML block or page builder: a snippet (style + guide + script), or a fully inlined version for sites that strip `<style>` and `<script>` | `guide-<slug>-<lang>.snippet.html`, `guide-<slug>-<lang>.wordpress.html` |
 
 Formats: `lite` (one quick win, at most 5 steps, about 1,000 words; the deeper material becomes a nurture email plan) or `full` (complete walkthrough).
 
@@ -38,7 +38,9 @@ Languages: `id`, `en`, or `id+en`. The second language is localized after verifi
 
 ## Guide page
 
-`/finaldraft` builds the page with `scripts/build-guide.py` (needs Python 3 and [pandoc](https://pandoc.org/installing.html)) from the draft's page conventions, described in `commands/draft.md`. Brand themes live in `assets/themes/` (Gwenchana: `gwenchana.css`). The result fills `assets/guide-template.html`, a self-contained page (no external requests, `noindex`) with scoped CSS under `.wg-guide`. Host it on an unlisted URL, or paste it into a WordPress Custom HTML block. Your email tool does the gating by sending the URL in the welcome email.
+`/finaldraft` builds the page with `scripts/build-guide.py` (needs Python 3 and [pandoc](https://pandoc.org/installing.html)) from the draft's page conventions, described in `commands/draft.md`. Brand themes live in `assets/themes/` (Gwenchana: `gwenchana.css`). The result fills `assets/guide-template.html`, a self-contained page (no external requests, `noindex`) with scoped CSS under `.wg-guide`. Host it on an unlisted URL, or paste it into a WordPress Custom HTML block. Your email tool does the gating by sending the URL in the welcome email, or the site's own form unlocks the guide at the `<!-- wg:gate -->` marker.
+
+Some WordPress setups strip `<style>` and `<script>` on save, and the leftover CSS shows up as text above the guide. `--wordpress` avoids that: every style is inlined, with no script, no copy buttons, and no H1 (the post title already is one). It needs `python -m pip install premailer`.
 
 ## Examples
 
@@ -49,6 +51,7 @@ Languages: `id`, `en`, or `id+en`. The second language is localized after verifi
 | `examples/meta-ads-claude/` | full, EN | Blueprint, research, outline, draft, stepcheck, the guide page, the paste-ready snippet, and the Google Docs HTML |
 | `examples/meta-ads-claude-lite/` | lite, EN + ID | The same stages in lite form, the nurture plan, the five nurture emails (EN + ID), and the pages and snippets in both languages |
 | `examples/riset-kompetitor-claude/` | lite, ID + EN | Every step verified (live, docs, or a walkthrough on the Claude Free plan), real CTA, no banner. Includes the early-walkthrough results in the stepcheck, the nurture plan, and pages and snippets in both languages |
+| `examples/chatgpt-ads-tracking-wa/` | full, ID + EN, behind an email gate | WhatsApp click tracking to GA4 and OpenAI Ads (ChatGPT Ads). Every step LIVE, DOC, or USER; the steps that could not be verified were rewritten to verified content instead of shipping with a banner. Screenshots come from a WordPress media library (`--img-base`). Includes pages, snippets, and the inlined `.wordpress.html` files that went live |
 
 GitHub shows `.html` files as code. Download one and open it in a browser to see the page.
 
@@ -58,7 +61,7 @@ GitHub shows `.html` files as code. Download one and open it in a browser to see
 python tests/test_build_guide.py
 ```
 
-Builds a small sample draft and checks every page component. Skips when pandoc isn't installed.
+Builds a small sample draft and checks every page component, the Docs export, the snippet, and the WordPress export. Skips when pandoc isn't installed, and skips the WordPress check without premailer.
 
 ## Not in this plugin
 

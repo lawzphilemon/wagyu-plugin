@@ -41,6 +41,8 @@ A subtitle for testing.
 
 [SCREENSHOT: the settings page]
 
+[SCREENSHOT: https://site.test/uploads/menu.png | The main menu]
+
 ```text
 copy <me> & keep
 ```
@@ -91,6 +93,7 @@ def main():
     for needle in ['<html lang="en">', "<title>Do a thing in 10 minutes</title>", '<p class="wg-eyebrow">',
                    '<ul class="wg-chips"><li>10 min</li>', 'class="wg-cols"', 'class="wg-expect"', 'class="wg-pitfall"',
                    "Not yet verified:", '<img src="screenshots/step-1.1.png"', "Screenshot needed: the settings page",
+                   '<img src="https://site.test/uploads/menu.png" alt="The main menu"',
                    "copy &lt;me&gt; &amp; keep", 'class="wg-copy"', 'class="wg-check"', 'class="wg-aside"',
                    "<summary>T1. It breaks</summary>", "<summary>T2. Still breaks</summary>", "Second paragraph body",
                    '<section class="wg-cta">', '<p class="wg-notfor">', 'class="wg-btn" href="https://example.com/cta"',
@@ -127,6 +130,25 @@ def main():
     assert "--wg-btn-bg:#ECCE22" in snip, "theme not applied"
     for banned in ["<html", "<head", "<body", "</body>", "<title>", "{{", "<link"]:
         assert banned not in snip, f"snippet has: {banned}"
+
+    try:
+        import premailer  # noqa: F401
+    except ImportError:
+        print("OK (SKIP --wordpress: premailer not installed)")
+        return
+    with tempfile.TemporaryDirectory() as d:
+        draft, out = Path(d, "04-draft.md"), Path(d, "guide.wordpress.html")
+        draft.write_text(DRAFT, encoding="utf-8")
+        r = subprocess.run([sys.executable, str(SCRIPT), str(draft), str(out), "--lang", "en",
+                            "--cta-url", "https://example.com/cta", "--wordpress", "--theme", str(THEME)],
+                           capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr + r.stdout
+        wp = out.read_text(encoding="utf-8")
+    for needle in ['<div class="wg-guide" style=', '<p class="wg-eyebrow" style=', "background:#ECCE22",
+                   "rgba(30,30,30,0.12)", "display:flex", 'class="wg-btn" href="https://example.com/cta"']:
+        assert needle in wp.replace(", ", ","), f"wordpress missing: {needle}"
+    for banned in ["<style", "<script", "<h1", "wg-copy", "var(--", "<html", "<body"]:
+        assert banned not in wp, f"wordpress has: {banned}"
     print("OK")
 
 
