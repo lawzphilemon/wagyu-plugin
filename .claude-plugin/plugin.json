@@ -1,7 +1,7 @@
 {
   "name": "wagyu",
   "displayName": "WAGYU Free Guide Pipeline",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Gated free-guide pipeline: blueprint with an honest premium ladder, free-tool research, step outline, draft, step verification, A5 quality gate, and a self-contained bilingual (ID/EN) guide landing page.",
   "author": { "name": "Lawrence Philemon" },
   "commands": "./commands",

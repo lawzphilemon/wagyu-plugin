@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Track WhatsApp clicks from ChatGPT ads in GA4 and OpenAI Ads in 60 minutes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&amp;display=swap">
+<style>
+.wg-guide{--wg-brand:#1f4fd1;--wg-brand-ink:#ffffff;--wg-ink:#16181d;--wg-muted:#596070;--wg-bg:#ffffff;--wg-soft:#f4f6fa;--wg-line:#e2e5ec;--wg-warn-bg:#fff7e6;--wg-warn:#8a4b00;--wg-ok:#0f7a4a;
+  background:var(--wg-bg);color:var(--wg-ink);font:17px/1.65 var(--wg-font,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);max-width:760px;margin:0 auto;padding:32px 16px 64px;box-sizing:border-box;overflow-wrap:anywhere}
+.wg-guide *,.wg-guide *::before,.wg-guide *::after{box-sizing:inherit}
+/* Reset what host themes commonly restyle when this is pasted into a site. Themes using IDs or !important still win. */
+.wg-guide h1,.wg-guide h2,.wg-guide h3{color:inherit;font-family:inherit;font-weight:700;text-transform:none;letter-spacing:normal}
+.wg-guide p,.wg-guide li{line-height:1.65}
+.wg-guide a{text-decoration:underline}
+.wg-guide ul:not([class]){list-style:disc}.wg-guide ol{list-style:decimal}
+.wg-guide pre,.wg-guide table,.wg-guide img{border:0;box-shadow:none}
+.wg-guide button{font-family:inherit;line-height:1.4}
+.wg-guide h1{font-size:clamp(28px,5vw,40px);line-height:1.2;margin:.2em 0 .4em}
+.wg-guide h2{font-size:26px;line-height:1.3;margin:2.2em 0 .5em;padding-top:.6em;border-top:1px solid var(--wg-line)}
+.wg-guide h3{font-size:19px;line-height:1.4;margin:1.8em 0 .4em}
+.wg-guide p,.wg-guide li{margin:.5em 0}
+.wg-guide a{color:var(--wg-link,var(--wg-brand))}
+.wg-guide code{background:var(--wg-soft);padding:.1em .35em;border-radius:4px;font-size:.92em}
+.wg-guide table{width:100%;border-collapse:collapse;font-size:15px;margin:1em 0;display:block;overflow-x:auto}
+.wg-guide th,.wg-guide td{border:1px solid var(--wg-line);padding:8px 10px;text-align:left;vertical-align:top}
+.wg-guide th{background:var(--wg-soft)}
+.wg-eyebrow{color:var(--wg-eyebrow,var(--wg-brand));font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin:0}
+.wg-sub{font-size:19px;color:var(--wg-muted);margin:0 0 1em}
+.wg-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.wg-chips li{margin:0;background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:999px;padding:4px 12px;font-size:14px}
+.wg-box{background:var(--wg-soft);border:1px solid var(--wg-line);border-radius:var(--wg-radius,12px);padding:18px 20px;margin:1.4em 0}
+.wg-box>:first-child{margin-top:0}.wg-box>:last-child{margin-bottom:0}
+.wg-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.4em 0}.wg-cols .wg-box{margin:0}
+@media (max-width:600px){.wg-cols{grid-template-columns:1fr}}
+.wg-toc ol{margin:.4em 0 0;padding-left:1.3em}
+.wg-phase-meta{color:var(--wg-muted);font-size:15px;margin-top:-.2em}
+.wg-expect{border-left:3px solid var(--wg-ok);padding-left:12px}
+.wg-pitfall{background:var(--wg-warn-bg);color:var(--wg-warn);border-radius:8px;padding:10px 14px}
+.wg-shot{margin:1em 0}.wg-shot img{max-width:100%;height:auto;border:1px solid var(--wg-line);border-radius:8px}
+.wg-shot figcaption{color:var(--wg-muted);font-size:14px}
+.wg-shot-todo{border:2px dashed var(--wg-line);border-radius:8px;padding:28px 16px;text-align:center;color:var(--wg-muted);font-size:14px}
+.wg-code{position:relative;margin:1em 0}
+.wg-code pre{background:var(--wg-code-bg,#16181d);color:#f1f3f7;border-radius:10px;padding:16px;overflow-x:auto;font-size:14px;line-height:1.55;margin:0;white-space:pre-wrap}
+.wg-code pre code{background:none;padding:0;border-radius:0;color:inherit;font-size:inherit}
+.wg-copy{position:absolute;top:8px;right:8px;background:#2c313b;color:#fff;border:0;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer}
+.wg-check{list-style:none;padding-left:0}
+.wg-check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.wg-check input{margin-top:.35em;width:18px;height:18px;accent-color:var(--wg-ok);flex:none}
+.wg-guide details{border:1px solid var(--wg-line);border-radius:10px;padding:10px 16px;margin:.6em 0}
+.wg-guide summary{cursor:pointer;font-weight:600}
+.wg-aside{border-left:3px solid var(--wg-brand);padding:4px 0 4px 14px;color:var(--wg-muted)}
+.wg-cta{background:var(--wg-cta-bg,var(--wg-brand));color:var(--wg-cta-ink,var(--wg-brand-ink));border-radius:var(--wg-radius,14px);padding:24px;margin:2em 0}
+.wg-cta h2{border:0;margin:0 0 .4em;padding:0;color:inherit}
+.wg-cta a:not(.wg-btn){color:inherit}
+.wg-cta a.wg-btn{display:inline-block;background:var(--wg-btn-bg,var(--wg-brand-ink));color:var(--wg-btn-ink,var(--wg-brand));font-weight:700;text-decoration:none;border-radius:10px;padding:12px 22px;margin-top:.6em}
+.wg-cta .wg-notfor{opacity:.85;font-size:15px}
+.wg-foot{color:var(--wg-muted);font-size:14px;margin-top:3em;border-top:1px solid var(--wg-line);padding-top:1em}
+/* Gwenchana brand theme for wagyu guide pages.
+   Tokens from the Gwenchana marketing site design system: Citron #ECCE22 accent, Obsidian #1E1E1E ink,
+   white surfaces, Montserrat. Derived shades are the site's oklch formulas converted to hex.
+   Citron is never used as text on white (1.57:1); it carries fills and borders, with Obsidian on top (10.65:1).
+   font-url: https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&display=swap */
+.wg-guide{
+  --wg-brand:#ECCE22;              /* citron: borders, fills */
+  --wg-brand-ink:#1E1E1E;          /* obsidian on citron */
+  --wg-ink:#1E1E1E;                /* text-primary */
+  --wg-muted:#5C5C5C;              /* text-secondary, obsidian-600 (6.69:1) */
+  --wg-bg:#FFFFFF;                 /* surface-page */
+  --wg-soft:#F5F5F5;               /* surface-sunken, obsidian-50 */
+  --wg-line:rgb(30 30 30 / .12);   /* border-default */
+  --wg-link:#1E1E1E;               /* text-link */
+  --wg-eyebrow:#1E1E1E;
+  --wg-warn-bg:#FFFFB7;            /* surface-accent-tint, citron-100 */
+  --wg-warn:#1E1E1E;
+  --wg-code-bg:#1E1E1E;            /* obsidian */
+  --wg-cta-bg:#1E1E1E;             /* surface-page-dark */
+  --wg-cta-ink:#FFFFFF;
+  --wg-btn-bg:#ECCE22;             /* surface-accent */
+  --wg-btn-ink:#1E1E1E;            /* text-on-accent */
+  --wg-radius:16px;                /* radius-lg */
+  --wg-font:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+.wg-guide a:hover{color:#A68800}   /* text-link-hover, citron-700 */
+.wg-guide .wg-eyebrow{display:inline-block;background:#ECCE22;border-radius:999px;padding:3px 12px;font-size:13px}
+.wg-guide .wg-pitfall{border-left:4px solid #ECCE22}
+.wg-guide .wg-aside{border-left-color:#ECCE22}
+.wg-guide .wg-cta a.wg-btn{border-radius:999px;box-shadow:0 8px 32px rgb(236 206 34 / .35)}
+.wg-guide .wg-toc a,.wg-guide .wg-aside a{text-decoration-color:#ECCE22;text-decoration-thickness:2px;text-underline-offset:3px}
+</style>
+</head>
+<body style="margin:0;background:#ffffff">
+<div class="wg-guide">
+<p class="wg-eyebrow">Free Guide · ChatGPT Ads × WhatsApp</p>
+<h1>Track WhatsApp clicks from ChatGPT ads in GA4 and OpenAI Ads in 60 minutes</h1>
+<p class="wg-sub">For business owners and marketers who get their leads through WhatsApp. One GTM trigger, two destinations, no code. 100% free tools; ad budget separate.</p>
+<ul class="wg-chips"><li>45–60 min</li><li>Intermediate</li><li>Tool cost: $0</li></ul>
+<div class="wg-box">
+
+<p><strong>What you end up with:</strong></p>
+<ul>
+<li>A GTM trigger that catches every WhatsApp link format</li>
+<li>A <code>whatsapp_click</code> event in GA4, marked as a key event</li>
+<li>The OpenAI pixel, installed with OpenAI's official template, sending <code>page_viewed</code> and <code>lead_created</code>, with Lead Created attached to your campaign</li>
+<li>A ready-to-paste UTM pattern for ChatGPT Ads campaigns</li>
+</ul>
+<p><strong>How you know it worked:</strong> you click your WhatsApp button once, then <code>whatsapp_click</code> shows up in GA4 DebugView and <code>lead_created</code> shows up in Ads Manager → Conversions → Event Stream within a few minutes.</p>
+<p>One honest note up front: this tracks the button click, meaning the intent to get in touch. Whether a chat was actually sent happens inside WhatsApp, and GTM can't see it.</p>
+</div>
+
+<div class="wg-cols"><div class="wg-box">
+
+<p><strong>This is for you if:</strong></p>
+<ul>
+<li>Your main leads come in through a WhatsApp button on your website</li>
+<li>You run, or plan to run, ChatGPT Ads and want to know which ads lead to chats</li>
+<li>You have admin access to GTM and GA4</li>
+</ul>
+</div><div class="wg-box">
+
+<p><strong>Not for you yet if:</strong></p>
+<ul>
+<li>Your site doesn't use Google Tag Manager. Install it first, then come back.</li>
+<li>You need data on chats sent or deals closed. That takes the WhatsApp Business API or a CRM.</li>
+<li>You need server-side tracking (Conversions API). That's covered in a separate guide.</li>
+</ul>
+</div></div>
+<nav class="wg-box wg-toc" aria-label="Contents"><strong>Contents</strong><ol><li><a href="#the-tools-youll-use-all-free">The tools you'll use, all free</a></li><li><a href="#phase-1-set-up-ads-manager-about-15-minutes">Phase 1: set up Ads Manager (about 15 minutes)</a></li><li><a href="#phase-2-send-whatsapp-clicks-to-ga4-about-20-minutes">Phase 2: send WhatsApp clicks to GA4 (about 20 minutes)</a></li><li><a href="#phase-3-install-the-openai-pixel-test-and-publish-about-20-minutes">Phase 3: install the OpenAI pixel, test, and publish (about 20 minutes)</a></li><li><a href="#ready-to-paste-assets">Ready-to-paste assets</a></li><li><a href="#troubleshooting-the-problems-that-come-up-most">Troubleshooting: the problems that come up most</a></li></ol></nav>
+<h2 id="the-tools-youll-use-all-free">The tools you'll use, all free</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Used for</th>
+<th>Free limit (checked Oct 8, 2026)</th>
+<th>Account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google Tag Manager</td>
+<td>The trigger and all tags</td>
+<td>Free, up to 3 workspaces per container</td>
+<td>Google account, container already on your site</td>
+</tr>
+<tr>
+<td>Google Analytics 4</td>
+<td><code>whatsapp_click</code> event, key event, DebugView</td>
+<td>Free, up to 30 key events per property</td>
+<td>Marketer role or higher</td>
+</tr>
+<tr>
+<td>OpenAI Ads Manager</td>
+<td>Pixel, conversion event, Event Stream</td>
+<td>Creating the account and data source is free. Ads only run after verification and billing are done</td>
+<td>OpenAI Ads account</td>
+</tr>
+<tr>
+<td><strong>OpenAI Ads Measurement Pixel</strong> template (by openai)</td>
+<td>Installing the pixel without code</td>
+<td>Free, OpenAI's official template in the GTM Community Template Gallery</td>
+<td>Not needed</td>
+</tr>
+<tr>
+<td>Tag Assistant (GTM Preview)</td>
+<td>Testing before you publish</td>
+<td>Free</td>
+<td>Google account</td>
+</tr>
+</tbody>
+</table>
+<p>Before you start, make sure you have three things: GTM installed with GA4 running through it, a WhatsApp button that is a regular link, and an OpenAI Ads Manager account.</p>
+<p>About OpenAI Ads verification: we created our data source before our tax ID and billing were done (October 2026), so you can work through this whole guide while verification is pending. Business accounts must enter a tax ID (NPWP in Indonesia); personal accounts don't. Both still need identity verification before ads can run. If Ads Manager asks for identity verification first, finish that before Step 1.1.</p>
+<p>The guide has three phases: Ads Manager (about 15 minutes), GTM and GA4 (about 20 minutes), then the OpenAI pixel and testing (about 20 minutes).</p>
+<!-- wg:gate -->
+
+<h2 id="phase-1-set-up-ads-manager-about-15-minutes">Phase 1: set up Ads Manager (about 15 minutes)</h2>
+<p>By the end of this phase you have your Pixel ID, a Lead created conversion event attached to your campaign, and UTMs on your ad links.</p>
+<h3 id="step-11--copy-your-pixel-id">Step 1.1 — Copy your Pixel ID</h3>
+<p>The Pixel ID connects your website to your ad account. You'll paste it into GTM in Phase 3.</p>
+<ol type="1">
+<li>In Ads Manager, click <strong>Conversions</strong> in the left sidebar.</li>
+<li>Open the <strong>Data Source</strong> tab.</li>
+<li>Copy the code shown under your data source's name. That's your Pixel ID.</li>
+<li>No data source yet? Click <strong>+ Create</strong>, choose <strong>Data Source</strong>, and follow the dialog for your website. In the table, a website data source shows the type <strong>Web</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> your Pixel ID copied. It's a string of letters and numbers.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Many tutorials say "Tools → Conversions". That path is outdated: Conversions now has its own item in the sidebar.</p>
+<figure class="wg-shot"><img src="https://gwenchana.digital/wp-content/uploads/2026/10/Ads-Manager-Slide-selection-scaled.png" alt="Conversions page in OpenAI Ads Manager with the Create menu: Data Source and Conversion Event" loading="lazy"></figure>
+<h3 id="step-12--create-the-lead-created-conversion-event">Step 1.2 — Create the Lead created conversion event</h3>
+<p>This tells Ads Manager to count <code>lead_created</code> from your website as a conversion.</p>
+<ol type="1">
+<li>Click <strong>+ Create</strong>, then choose <strong>Conversion Event</strong>.</li>
+<li>In the <strong>Create custom conversion</strong> dialog, set <strong>Data source</strong> to your data source.</li>
+<li>Under <strong>Base event</strong>, choose <strong>Lead created</strong>.</li>
+<li>Fill in <strong>Conversion name</strong>, up to 30 characters. There's a suggested name in Asset B.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> Lead Created listed in the <strong>Conversion Events</strong> tab.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> The dialog title says "custom" even though Lead created is a standard event. Ignore it. Don't pick App installed or App opened, because the website pixel doesn't support them.</p>
+<figure class="wg-shot"><img src="https://gwenchana.digital/wp-content/uploads/2026/10/Ads-Manager-Slide-selection1-scaled.png" alt="Create custom conversion dialog in Ads Manager: Data source, Base event, Conversion name" loading="lazy"></figure>
+<h3 id="step-13--attach-lead-created-to-your-campaign">Step 1.3 — Attach Lead Created to your campaign</h3>
+<p>Creating a conversion event doesn't attach it to any campaign. This is the step people miss most often.</p>
+<ol type="1">
+<li>Go to <strong>Campaigns</strong>, click ⋯ on your campaign's row, then choose <strong>Edit Campaign</strong>.</li>
+<li>Scroll to <strong>Conversion event</strong> and choose <strong>Lead Created</strong>.</li>
+<li>If Page Viewed is attached too, remove it with the ✕ button.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>No campaign yet? Choose Lead Created when you create it.</p>
+<p class="wg-expect"><strong>You should see:</strong> in the Conversion Events tab, Lead Created shows "Used by 1 campaign".</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Attach Lead Created before your ads go live. Clicks that happen before the event is attached aren't counted later. We created ours half a day after our ads started, and the clicks from those first hours never made it into the count. Don't attach Page Viewed as a conversion: the Conversions column adds up every attached event, so page views get counted too.</p>
+<div class="wg-shot-todo">Screenshot needed: Conversion event field in Edit Campaign set to Lead Created</div>
+<h3 id="step-14--add-utms-with-tracking-parameters">Step 1.4 — Add UTMs with Tracking parameters</h3>
+<p>Without UTMs, ChatGPT ad traffic often lands in GA4 as Direct. You only need to set this once, at campaign level.</p>
+<ol type="1">
+<li>Still in <strong>Edit Campaign</strong>, find <strong>Tracking parameters</strong>.</li>
+<li>Paste the string from Asset C and replace <code>&lt;campaign-name&gt;</code> with your campaign's name.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> the UTM string saved on the campaign.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> OpenAI's Help Center calls this "Landing page query parameters", but the label in Ads Manager is <strong>Tracking parameters</strong>. Parameters set at the Ad URL, Ad, or Ad group level override the campaign level. The <code>chatgpt_ads</code> source only shows up in GA4 after real ad clicks.</p>
+<figure class="wg-shot"><img src="https://gwenchana.digital/wp-content/uploads/2026/10/Ads-Manager-Slide-selection2-scaled.png" alt="Tracking parameters field in Edit Campaign with the supported placeholders" loading="lazy"></figure>
+<div class="wg-box"><p><strong>Checkpoint</strong></p>
+<ul class="wg-check">
+<li><label><input type="checkbox"> Pixel ID copied</label></li>
+<li><label><input type="checkbox"> Lead Created exists and shows "Used by 1 campaign"</label></li>
+<li><label><input type="checkbox"> Page Viewed is not attached as a conversion</label></li>
+<li><label><input type="checkbox"> Tracking parameters filled in</label></li>
+</ul></div>
+<h2 id="phase-2-send-whatsapp-clicks-to-ga4-about-20-minutes">Phase 2: send WhatsApp clicks to GA4 (about 20 minutes)</h2>
+<p>This phase builds one WhatsApp trigger that two tags will share: GA4 now, OpenAI in Phase 3.</p>
+<h3 id="step-21--turn-on-the-click-url-variable">Step 2.1 — Turn on the Click URL variable</h3>
+<p>The WhatsApp trigger reads the address of the clicked link. Without this variable, the trigger never matches and stays silent.</p>
+<ol type="1">
+<li>In GTM, open <strong>Variables</strong>.</li>
+<li>In the <strong>Built-In Variables</strong> section, click <strong>Configure</strong>.</li>
+<li>Tick <strong>Click URL</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> Click URL listed under Built-In Variables.</p>
+<figure class="wg-shot"><img src="https://gwenchana.digital/wp-content/uploads/2026/10/Ads-Manager-Slide-selection3-scaled.png" alt="Configure Built-In Variables panel in GTM with Click URL and Click Text ticked" loading="lazy"></figure>
+<h3 id="step-22--create-the-whatsapp-click-trigger">Step 2.2 — Create the WhatsApp click trigger</h3>
+<p>WhatsApp links come in several formats: wa.me, api.whatsapp.com, web.whatsapp.com, and whatsapp://. The regex in Asset A catches all of them.</p>
+<ol type="1">
+<li>Open <strong>Triggers</strong>, then click <strong>New</strong>.</li>
+<li>Click <strong>Trigger Configuration</strong> and choose <strong>Just Links</strong>.</li>
+<li>Under <strong>This trigger fires on</strong>, choose the <strong>Some</strong> option (some link clicks).</li>
+<li>Set the condition: <code>Click URL</code>, operator <code>matches RegEx</code>, then paste the regex from Asset A.</li>
+<li>Name it <code>WA - WhatsApp Click</code>, then click <strong>Save</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> the <code>WA - WhatsApp Click</code> trigger saved.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> You don't need <strong>Wait for Tags</strong> or <strong>Check Validation</strong> for this guide, so leave them unticked. Buttons from chat widgets that load inside an iframe won't be caught by this trigger; see Troubleshooting.</p>
+<div class="wg-shot-todo">Screenshot needed: Just Links trigger configuration with the regex condition</div>
+<h3 id="step-23--create-the-ga4-whatsapp_click-tag">Step 2.3 — Create the GA4 whatsapp_click tag</h3>
+<ol type="1">
+<li>Open <strong>Tags</strong>, then click <strong>New</strong>.</li>
+<li>Choose <strong>Google Analytics: GA4 Event</strong>.</li>
+<li>Fill in <strong>Measurement ID</strong> with your GA4 ID.</li>
+<li>Set <strong>Event Name</strong> to <code>whatsapp_click</code>.</li>
+<li>Under <strong>Triggering</strong>, choose <code>WA - WhatsApp Click</code>.</li>
+<li>Name it <code>GA4 - whatsapp_click</code>, then click <strong>Save</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> the <code>GA4 - whatsapp_click</code> tag saved.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> GA4 event names are case sensitive, can't contain spaces, and max out at 40 characters. Type exactly <code>whatsapp_click</code>.</p>
+<div class="wg-shot-todo">Screenshot needed: GA4 Event tag configuration with Event Name whatsapp_click</div>
+<h3 id="step-24--mark-whatsapp_click-as-a-key-event">Step 2.4 — Mark whatsapp_click as a key event</h3>
+<p>A key event makes WhatsApp clicks read as an important outcome in GA4 reports. You can mark it before the first event arrives.</p>
+<ol type="1">
+<li>In GA4, open <strong>Admin</strong>, then under <strong>Data display</strong> click <strong>Events</strong>.</li>
+<li>Click <strong>+ Create event</strong>.</li>
+<li>Enter the name <code>whatsapp_click</code>, then switch on <strong>Mark as key event</strong>.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>If <code>whatsapp_click</code> already appears in your events list, just click the star next to it.</p>
+<p class="wg-expect"><strong>You should see:</strong> <code>whatsapp_click</code> listed as a key event.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> GA4 also logs a built-in <code>click</code> event for the same click. We saw both in DebugView. Mark <code>whatsapp_click</code> as the key event, not <code>click</code>. Standard reports can take up to 24 hours to show a new key event.</p>
+<div class="wg-shot-todo">Screenshot needed: GA4 Create event form with Mark as key event switched on</div>
+<div class="wg-box"><p><strong>Checkpoint</strong></p>
+<ul class="wg-check">
+<li><label><input type="checkbox"> Click URL is on</label></li>
+<li><label><input type="checkbox"> Trigger <code>WA - WhatsApp Click</code> saved</label></li>
+<li><label><input type="checkbox"> Tag <code>GA4 - whatsapp_click</code> saved</label></li>
+<li><label><input type="checkbox"> <code>whatsapp_click</code> marked as a key event</label></li>
+</ul></div>
+<h2 id="phase-3-install-the-openai-pixel-test-and-publish-about-20-minutes">Phase 3: install the OpenAI pixel, test, and publish (about 20 minutes)</h2>
+<p>This phase uses OpenAI's official template from the GTM Gallery, so you don't paste any code. The WhatsApp trigger from Phase 2 gets reused for the Lead created tag.</p>
+<h3 id="step-31--add-openais-official-template">Step 3.1 — Add OpenAI's official template</h3>
+<ol type="1">
+<li>In GTM, open <strong>Templates</strong>.</li>
+<li>In the <strong>Tag Templates</strong> section, click <strong>Search Gallery</strong>.</li>
+<li>Type "OpenAI", then choose <strong>OpenAI Ads Measurement Pixel</strong> by <strong>openai</strong>.</li>
+<li>Click <strong>Add to workspace</strong> and approve the permissions it asks for.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> OpenAI Ads Measurement Pixel listed under Tag Templates.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> The gallery has several OpenAI templates, including ones by Stape and Webaround. Pick the one by openai. The Stape template works too (we used it until October 2026), but its fields differ from this guide.</p>
+<div class="wg-shot-todo">Screenshot needed: "OpenAI" search results in the Community Template Gallery</div>
+<h3 id="step-32--save-your-pixel-id-as-a-constant-variable">Step 3.2 — Save your Pixel ID as a constant variable</h3>
+<p>With this variable, you paste the Pixel ID once and reuse it in every OpenAI tag.</p>
+<ol type="1">
+<li>Open <strong>Variables</strong>.</li>
+<li>Under <strong>User-Defined Variables</strong>, click <strong>New</strong>, then choose <strong>Constant</strong>.</li>
+<li>Paste the Pixel ID from Step 1.1.</li>
+<li>Name it <code>Const - OpenAI Pixel ID</code>, then click <strong>Save</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> <code>Const - OpenAI Pixel ID</code> listed under User-Defined Variables.</p>
+<h3 id="step-33--create-the-page-viewed-tag">Step 3.3 — Create the Page viewed tag</h3>
+<ol type="1">
+<li>Open <strong>Tags</strong>, click <strong>New</strong>, then choose the <strong>OpenAI Ads Measurement Pixel</strong> template.</li>
+<li>Under <strong>Pixel ID</strong>, choose the <code>Const - OpenAI Pixel ID</code> variable with the variable icon next to the field.</li>
+<li>Leave <strong>Send a measurement event when this tag fires</strong> ticked.</li>
+<li>Under <strong>Event name</strong>, choose <strong>Page viewed</strong>.</li>
+<li>Choose the <strong>All Pages</strong> trigger.</li>
+<li>Name it <code>OpenAI - Page viewed</code>, then click <strong>Save</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> the <code>OpenAI - Page viewed</code> tag saved.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> You don't need a separate "base" tag. According to OpenAI's template documentation, every event tag loads the pixel itself.</p>
+<div class="wg-shot-todo">Screenshot needed: OpenAI Page viewed tag configuration, Pixel ID blurred</div>
+<h3 id="step-34--create-the-lead-created-tag">Step 3.4 — Create the Lead created tag</h3>
+<ol type="1">
+<li>Create a new tag with the <strong>OpenAI Ads Measurement Pixel</strong> template.</li>
+<li>Under <strong>Pixel ID</strong>, choose the <code>Const - OpenAI Pixel ID</code> variable with the variable icon next to the field.</li>
+<li>Under <strong>Event name</strong>, choose <strong>Lead created</strong>.</li>
+<li>Choose the <code>WA - WhatsApp Click</code> trigger.</li>
+<li>Name it <code>OpenAI - Lead created</code>, then click <strong>Save</strong>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> the <code>OpenAI - Lead created</code> tag saved.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Leave <strong>Amount</strong> and <strong>Currency</strong> empty. A WhatsApp click has no money value yet, and if you do fill it in, the amount must be in the currency's smallest unit.</p>
+<div class="wg-shot-todo">Screenshot needed: OpenAI Lead created tag configuration with the WA - WhatsApp Click trigger</div>
+<h3 id="step-35--pause-any-old-openai-tags">Step 3.5 — Pause any old OpenAI tags</h3>
+<p>If you installed the OpenAI pixel before through Custom HTML or another template, that tag has to be switched off.</p>
+<ol type="1">
+<li>In <strong>Tags</strong>, click the name of the old tag that loads the OpenAI pixel.</li>
+<li>Click the three-dot icon in the top right, then choose <strong>Pause</strong>.</li>
+<li>Click <strong>Save</strong>. The change takes effect once you publish in Step 3.7.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> only <code>OpenAI - Page viewed</code> and <code>OpenAI - Lead created</code> active.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> A double pixel sends every event twice, and your Ads Manager numbers stop being trustworthy.</p>
+<h3 id="step-36--test-in-preview">Step 3.6 — Test in Preview</h3>
+<p>Preview confirms the trigger and both tags work before the change goes live. Open GA4 in a separate tab first.</p>
+<ol type="1">
+<li>In GTM, click <strong>Preview</strong>, enter your website URL, then click <strong>Connect</strong>.</li>
+<li>In the website window that opens, click your WhatsApp button once.</li>
+<li>In Tag Assistant, select the <strong>Link Click</strong> event. <code>GA4 - whatsapp_click</code> and <code>OpenAI - Lead created</code> should both show "Fired 1 time".</li>
+<li>In GA4, open <strong>Admin</strong>, then <strong>DebugView</strong>. Look for <code>whatsapp_click</code>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> both tags "Fired 1 time" in Tag Assistant, and <code>whatsapp_click</code> in DebugView.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> GA4 also shows a <code>click</code> event for the same click. That's normal.</p>
+<figure class="wg-shot"><img src="https://gwenchana.digital/wp-content/uploads/2026/10/Ads-Manager-Slide-selection4-scaled.png" alt="GA4 DebugView showing the whatsapp_click and click events" loading="lazy"></figure>
+<h3 id="step-37--publish-and-test-again-on-your-live-site">Step 3.7 — Publish and test again on your live site</h3>
+<p>Once published, the OpenAI pixel runs on your real website. The final check happens in Event Stream.</p>
+<ol type="1">
+<li>In GTM, click <strong>Submit</strong>.</li>
+<li>Choose <strong>Publish and Create Version</strong>, name the version, then click <strong>Publish</strong>.</li>
+<li>In Ads Manager, open <strong>Conversions</strong>, then the <strong>Event Stream</strong> tab. Make sure polling is on (the button reads <strong>Pause polling</strong>).</li>
+<li>Open your website in a normal tab without Preview, then click your WhatsApp button.</li>
+<li>In Event Stream, look for <code>lead_created</code> with API Channel <code>pixel_sdk</code>.</li>
+</ol>
+<p class="wg-expect"><strong>You should see:</strong> <code>lead_created</code> in Event Stream. In our account, it arrived within the same minute as the test click.</p>
+<p class="wg-pitfall"><strong>Watch out:</strong> Event Stream only shows events from roughly the last 15 minutes. If you waited too long, click the WhatsApp button again. The Conversions column in campaign reports takes 24–48 hours to fill in, so use Event Stream for testing.</p>
+<figure class="wg-shot"><img src="https://gwenchana.digital/wp-content/uploads/2026/10/Ads-Manager-Slide-selection5-scaled.png" alt="Ads Manager Event Stream showing lead_created with API Channel pixel_sdk" loading="lazy"></figure>
+<div class="wg-box"><p><strong>Checkpoint</strong></p>
+<ul class="wg-check">
+<li><label><input type="checkbox"> <code>whatsapp_click</code> shows up in GA4 DebugView</label></li>
+<li><label><input type="checkbox"> <code>lead_created</code> shows up in Event Stream</label></li>
+<li><label><input type="checkbox"> Only two OpenAI tags are active</label></li>
+<li><label><input type="checkbox"> The container is published</label></li>
+</ul></div>
+<p class="wg-aside">Your tracking is live. The next job is reading the data every week and deciding which ads to keep. If you'd rather hand that part off, <a href="https://gwenchana.digital/services/das/">see Gwenchana's Digital Advertising services</a>.</p>
+<h2 id="ready-to-paste-assets">Ready-to-paste assets</h2>
+<h3 id="asset-a--whatsapp-trigger-regex">Asset A — WhatsApp trigger regex</h3>
+<p>Used in Step 2.2, with the condition <code>Click URL</code> <code>matches RegEx</code>. The regex is lowercase, matching how WhatsApp links are normally written.</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>wa\.me|api\.whatsapp\.com|web\.whatsapp\.com|^whatsapp:</code></pre></div>
+<h3 id="asset-b--naming-convention">Asset B — Naming convention</h3>
+<p>Consistent names make life easier for anyone who opens your container later.</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>Trigger           WA - WhatsApp Click
+GA4 tag           GA4 - whatsapp_click
+OpenAI tag 1      OpenAI - Page viewed
+OpenAI tag 2      OpenAI - Lead created
+Variable          Const - OpenAI Pixel ID
+Conversion name   Lead WhatsApp</code></pre></div>
+<h3 id="asset-c--utms-for-tracking-parameters">Asset C — UTMs for Tracking parameters</h3>
+<p>Used in Step 1.4. Replace <code>&lt;campaign-name&gt;</code> with your campaign's name in lowercase with no spaces, for example <code>home-renovation-oct26</code>. Ads Manager fills in the parts in curly braces automatically when someone clicks your ad.</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>utm_source=chatgpt_ads&amp;utm_medium=cpc&amp;utm_campaign=&lt;campaign-name&gt;&amp;utm_content={ad_id}&amp;utm_term={ad_group_id}</code></pre></div>
+<p>We use <code>chatgpt_ads</code> rather than <code>chatgpt</code> so ad traffic stays separate from organic ChatGPT traffic in GA4. Other placeholders Ads Manager supports: <code>{campaign_id}</code>, <code>{ad_account_id}</code>, and <code>{oppref}</code>.</p>
+<h3 id="asset-d--2-minute-test-checklist">Asset D — 2-minute test checklist</h3>
+<p>Run it every time you change your WhatsApp button or your GTM container.</p>
+<div class="wg-code"><button class="wg-copy" type="button">Copy</button><pre><code>[ ] GTM Preview → Connect → click the WhatsApp button
+[ ] Tag Assistant: Link Click event, GA4 and OpenAI tags &quot;Fired 1 time&quot;
+[ ] GA4 DebugView: whatsapp_click appears
+[ ] Submit → Publish
+[ ] Ads Manager Event Stream: polling on
+[ ] Click the WhatsApp button on the live site → lead_created appears (pixel_sdk)</code></pre></div>
+<h2 id="troubleshooting-the-problems-that-come-up-most">Troubleshooting: the problems that come up most</h2>
+
+
+<details><summary>The trigger doesn't fire when the WhatsApp button is clicked</summary><p>The most common cause: the Click URL variable is off, so GTM can't read the link's address. Turn it on in Step 2.1, then test again in Preview.</p></details>
+<details><summary>Buttons from chat widgets (Elfsight, Join.chat, and similar) aren't caught</summary><p>Many widgets load their button inside an iframe, and GTM link triggers can't see clicks inside an iframe. Your options: ask the widget to send an event to the dataLayer, or replace the widget with a regular link button. If the button is built with JavaScript and no iframe, try an <strong>All Elements</strong> trigger with the same condition.</p></details>
+<details><summary>Some WhatsApp clicks aren't recorded</summary><p>One of your buttons probably uses a link format outside the regex. Click that button in Preview, then check the Click URL value in the <strong>Variables</strong> tab of Tag Assistant. Make sure Asset A covers that format.</p></details>
+<details><summary>The tag shows "Fired" in Preview, but DebugView is empty</summary><p>Check the Measurement ID in your GA4 tag and make sure it matches the property you have open. If your site uses a cookie banner, events don't appear in DebugView until Analytics cookies are accepted. Accept the banner, then test again.</p></details>
+<details><summary>The pixel is installed, but Event Stream is empty</summary><p>First, make sure the <code>OpenAI - Lead created</code> tag actually shows "Fired" in Tag Assistant. If it fired and Event Stream is still empty, your site may use a Content Security Policy that blocks OpenAI's domains. Ask your developer to allow <code>bzrcdn.openai.com</code> and <code>bzr.openai.com</code>. Snippets copied from blogs sometimes use the wrong loader URL. The official template avoids that problem.</p></details>
+<details><summary>Events reach Event Stream, but the Conversions column stays at 0</summary><p>There are three possibilities: Lead Created isn't attached to the campaign (Step 1.3), it was attached after the clicks happened so they weren't counted, or the data is still inside the 24–48 hour delay. To see numbers per event, click the columns icon next to the filter icon, choose <strong>Customize columns</strong>, tick <strong>Lead Created</strong> under <strong>Events</strong>, then click <strong>Save changes</strong>.</p></details>
+<details><summary>Events go missing on a WordPress site running WP Rocket</summary><p>WP Rocket's <strong>Delay JavaScript execution</strong> holds GTM back until the visitor interacts with the page. Quick clicks or short tests may not get recorded. Open WP Rocket, go to the <strong>File Optimization</strong> tab, and under <strong>One-click exclusions</strong> in <strong>Analytics &amp; Ads</strong>, tick <strong>Google Tag Manager</strong> and <strong>Google Analytics</strong>.</p></details>
+<details><summary>One click is counted twice</summary><p>Almost always a double pixel: the new template running alongside an old Custom HTML tag. Repeat Step 3.5.</p></details>
+<details><summary>Two warnings appear in Conversions → Diagnostics</summary><p>Both showed up in our account, and both are expected for a WhatsApp click pixel setup. "No recent server-to-server events" appears because this setup only uses the browser pixel, without the Conversions API. "Some events are missing user data" (Email coverage and External ID coverage at 0%) appears because a WhatsApp click carries no email or customer ID. Tracking still works. Clearing them takes the Conversions API, which is covered in the next guide.</p></details>
+<details><summary>GA4 and Ads Manager show different numbers</summary><p>That's normal. They use different attribution, time zones, and cookie rules, and ad blockers affect GA4. OpenAI itself notes that a difference doesn't necessarily mean an error. Compare the same date range and time zone before drawing conclusions.</p></details>
+<section class="wg-cta">
+
+<h2 id="once-tracking-is-live-reading-the-data-every-week">Once tracking is live: reading the data every week</h2>
+<p>WhatsApp click data only pays off when someone reads it and acts on it every week. You need to know which ad groups and context hints bring in clicks, when to pause an ad, and when to switch to conversion bidding. That last decision has to be made when you create the campaign, because a campaign's objective can't be changed afterward. Then there's the part GTM can't do at all: connecting a WhatsApp click to a chat that actually became a client.</p>
+<p>Gwenchana's Digital Advertising service handles that part: campaign strategy and setup, ad creation, targeting, performance monitoring and optimization, and monthly analytics reports.</p>
+<p class="wg-notfor">Not a fit yet if you only want to try ChatGPT Ads once with a small budget, or don't have a regular monthly ad budget. Run this guide and read the data yourself first.</p>
+<a class="wg-btn" href="https://gwenchana.digital/services/das/">See Digital Advertising services</a>
+</section>
+<p class="wg-foot">The steps, menu labels, and free limits in this guide were checked on October 8, 2026 in Gwenchana's own Ads Manager, GTM, and GA4 accounts. Written by Lawrence, Gwenchana.</p>
+</div>
+<script>
+document.querySelectorAll('.wg-guide .wg-copy').forEach(function (b) {
+  var label = b.textContent;
+  b.addEventListener('click', function () {
+    navigator.clipboard.writeText(b.nextElementSibling.innerText).then(function () {
+      b.textContent = '✓'; setTimeout(function () { b.textContent = label; }, 1500);
+    });
+  });
+});
+</script>
+</body>
+</html>

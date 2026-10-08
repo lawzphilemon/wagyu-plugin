@@ -3,12 +3,15 @@
 
 Usage:
   build-guide.py DRAFT.md OUT.html --lang en|id --cta-url URL
-                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--img-base URL] [--docs | --snippet]
+                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--img-base URL] [--docs | --snippet | --wordpress]
 
 --docs writes plain HTML for Google Docs import instead of the page: no template, buttons, or script,
 and screenshots become "[Insert image: ...]" markers.
 --snippet writes paste-ready HTML code (<style> + guide + <script>, no <html>/<head>) for a
 WordPress Custom HTML block or a page builder. The host page must be set to noindex itself.
+--wordpress writes one block with every style inlined and no <style>, <script>, copy buttons, or H1, for
+sites that strip those tags on save (the leftover CSS then shows as text). Needs premailer (pip install premailer).
+Screenshots: "[SCREENSHOT: path-or-URL | alt text]"; the alt text is optional.
 --img-base rewrites local screenshot paths to URL + file name, e.g. your media library folder.
 --theme appends a brand theme (assets/themes/*.css) to the page CSS; a "font-url:" line in it adds the
 font stylesheet to full pages.
@@ -82,9 +85,12 @@ def transform(h, L):
     h = h.replace("[VERIFY]", f"<strong>{L['verify']}</strong>")
 
     def shot(m):
-        s = html.unescape(m[1])
-        if IMAGE.search(s):
-            return f'<figure class="wg-shot"><img src="{html.escape(s)}" alt="{html.escape(Path(s).stem.replace("-", " "))}" loading="lazy"></figure>'
+        # pandoc autolinks a bare URL; take the link text back. "path | alt text" sets the alt text.
+        s = html.unescape(re.sub(r"<a [^>]*>(.*?)</a>", r"\1", m[1]))
+        src, _, alt = (p.strip() for p in s.partition(" | "))
+        if IMAGE.search(src):
+            alt = alt or Path(src).stem.replace("-", " ")
+            return f'<figure class="wg-shot"><img src="{html.escape(src)}" alt="{html.escape(alt)}" loading="lazy"></figure>'
         return f'<div class="wg-shot-todo">{L["shot"]} {m[1]}</div>'
     h = re.sub(r"<p>\[SCREENSHOT: (.*?)\]</p>", shot, h)
 
@@ -120,6 +126,38 @@ def closing(h):
     return h + foot
 
 
+def wordpress(page, title):
+    """One block for hosts that strip <style> and <script> on save: every rule inlined as style="".
+    Drops the H1 (the post title already is one), the copy buttons, and the script."""
+    try:
+        from premailer import Premailer
+    except ImportError:
+        sys.exit("--wordpress needs premailer: python -m pip install premailer")
+    css = "\n".join(re.findall(r"<style>(.*?)</style>", page, flags=re.S))
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    css = re.sub(r"rgb\(\s*(\d+)\s+(\d+)\s+(\d+)\s*/\s*([\d.]+)\s*\)", r"rgba(\1,\2,\3,\4)", css)  # premailer drops this syntax
+    tokens = {}  # later .wg-guide blocks (the theme) override earlier ones
+    for block in re.findall(r"\.wg-guide\s*\{([^}]*)\}", css):
+        tokens.update((k, v.strip()) for k, v in re.findall(r"(--wg-[\w-]+)\s*:\s*([^;}]+)", block))
+    css = re.sub(r"--wg-[\w-]+\s*:\s*[^;}]+;?", "", css)
+    var = re.compile(r"var\((--wg-[\w-]+)(?:,([^()]*(?:\([^()]*\)[^()]*)*))?\)")
+    for _ in range(5):
+        css = var.sub(lambda m: tokens.get(m[1], (m[2] or "").strip()), css)
+    # Media queries can't be inlined: let the two columns wrap on their own.
+    css = css.replace(".wg-cols{display:grid;grid-template-columns:1fr 1fr", ".wg-cols{display:flex;flex-wrap:wrap")
+    css += "\n.wg-cols .wg-box{flex:1 1 260px}\n.wg-guide p.wg-foot{margin:3em 0 0}\n"
+    guide = page[page.index('<div class="wg-guide">'):page.index("</body>")]
+    guide = re.sub(r"<script>.*?</script>", "", guide, flags=re.S)
+    guide = re.sub(r'<button class="wg-copy"[^>]*>.*?</button>', "", guide, flags=re.S)
+    guide = re.sub(r"<h1>.*?</h1>\s*", "", guide, count=1, flags=re.S)
+    guide = re.sub(r'<div class="wg-shot-todo">.*?</div>\s*', "", guide, flags=re.S)  # a live page shows no gaps
+    doc = Premailer(f"<html><head><style>{css}</style></head><body>{guide}</body></html>", keep_style_tags=False,
+                    disable_validation=True, cssutils_logging_level=50, allow_network=False).transform()
+    body = re.search(r"<body>(.*)</body>", doc, flags=re.S)[1].strip()
+    return (f"<!-- {title}: paste into one Custom HTML block. No separate CSS or script needed; the post title is the H1. "
+            f"Set this page to noindex. -->\n{body}\n")
+
+
 def docs_html(md, L, banner, title):
     """Plain HTML that Google Docs imports cleanly: headings, lists, tables, code, links."""
     md = re.sub(r"^<!-- /?wg:[a-z]+ -->\n?", "", md, flags=re.M)
@@ -150,6 +188,7 @@ def main():
     mode = ap.add_mutually_exclusive_group()
     mode.add_argument("--docs", action="store_true")
     mode.add_argument("--snippet", action="store_true")
+    mode.add_argument("--wordpress", action="store_true")
     a = ap.parse_args()
     L = LABELS[a.lang]
 
@@ -198,7 +237,7 @@ def main():
         css = Path(a.theme).read_text(encoding="utf-8")
         page = page.replace("</style>", css.rstrip() + "\n</style>", 1)
         font = re.search(r"font-url:\s*(\S+)", css)
-        if font and not a.snippet:  # a pasted snippet uses the host site's fonts
+        if font and not (a.snippet or a.wordpress):  # pasted code uses the host site's fonts
             page = page.replace("<style>", f'<link rel="stylesheet" href="{html.escape(font[1])}">\n<style>', 1)
     if a.img_base:
         base = a.img_base.rstrip("/") + "/"
@@ -207,11 +246,16 @@ def main():
         style = re.search(r"<style>.*?</style>", page, flags=re.S)[0]
         guide = page[page.index('<div class="wg-guide">'):page.index("</body>")].rstrip()
         page = f"<!-- {plain_title}: paste into a Custom HTML block. Set this page to noindex. -->\n{style}\n{guide}\n"
+    todo = page.count('class="wg-shot-todo"')
+    if a.wordpress:
+        page = wordpress(page, plain_title)
 
     Path(a.out).write_text(page, encoding="utf-8")
     problems = {k: page.count(k) for k in ("{{", "CTA_URL", "[NEEDS SOURCE]", "[SCREENSHOT")}
+    if a.wordpress:
+        problems.update({k: page.count(k) for k in ("var(--", "<style", "<script")})
     print(f"{a.out}: {len(re.findall(r'<h3', page))} steps, {page.count('class="wg-copy"')} copy blocks, "
-          f"{page.count('<details>')} troubleshooting items, {page.count('class="wg-shot-todo"')} screenshots still needed")
+          f"{page.count('<details')} troubleshooting items, {todo} screenshots still needed{' (left out of the page)' if a.wordpress and todo else ''}")
     left = {k: v for k, v in problems.items() if v}
     if left:
         sys.exit(f"Not ready, left in page: {left}")
