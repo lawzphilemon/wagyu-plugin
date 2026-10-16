@@ -6,7 +6,7 @@ Usage:
                  [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--img-base URL] [--docs | --snippet | --wordpress]
 
 --docs writes plain HTML for Google Docs import instead of the page: no template, buttons, or script,
-and screenshots become "[Insert image: ...]" markers.
+and screenshots become "[Insert image: ...]" markers. --review FILE puts a Markdown reviewer brief above it.
 --snippet writes paste-ready HTML code (<style> + guide + <script>, no <html>/<head>) for a
 WordPress Custom HTML block or a page builder. The host page must be set to noindex itself.
 --wordpress writes one block with every style inlined and no <style>, <script>, copy buttons, or H1, for
@@ -158,9 +158,11 @@ def wordpress(page, title):
             f"Set this page to noindex. -->\n{body}\n")
 
 
-def docs_html(md, L, banner, title):
+def docs_html(md, L, banner, title, review=None):
     """Plain HTML that Google Docs imports cleanly: headings, lists, tables, code, links."""
     md = re.sub(r"^<!-- /?wg:[a-z]+ -->\n?", "", md, flags=re.M)
+    if review:  # reviewer brief above the guide, cut off by a rule
+        md = f"{review.strip()}\n\n---\n\n{md}"
     md = md.replace("[VERIFY]", f"**{L['verify']}**")
     md = re.sub(r"\n(Cause|Fix|Penyebab|Solusi):", r"  \n**\1:**", md)  # own line in Docs
     md = re.sub(r"\[SCREENSHOT: (.*?)\]",
@@ -185,6 +187,7 @@ def main():
     ap.add_argument("--banner")
     ap.add_argument("--img-base")
     ap.add_argument("--theme", help="CSS file with .wg-guide token overrides, e.g. assets/themes/gwenchana.css")
+    ap.add_argument("--review", help="--docs only: Markdown reviewer brief placed above the guide")
     mode = ap.add_mutually_exclusive_group()
     mode.add_argument("--docs", action="store_true")
     mode.add_argument("--snippet", action="store_true")
@@ -198,7 +201,8 @@ def main():
     md = md.replace("CTA_URL", a.cta_url)
     if a.docs:
         title = next((l[2:].strip() for l in md.splitlines() if l.startswith("# ")), "Guide")
-        page = docs_html(md, L, a.banner, html.escape(title))
+        review = Path(a.review).read_text(encoding="utf-8") if a.review else None
+        page = docs_html(md, L, a.banner, html.escape(title), review)
         Path(a.out).write_text(page, encoding="utf-8")
         left = {k: page.count(k) for k in ("CTA_URL", "[NEEDS SOURCE]") if page.count(k)}
         print(f"{a.out}: {len(page)} bytes, {page.count(L['insert'])} images to insert, {page.count(L['shot'])} screenshots still needed")
