@@ -36,9 +36,9 @@ from pathlib import Path
 TEMPLATE = Path(__file__).resolve().parent.parent / "assets" / "guide-template.html"
 LABELS = {
     "en": {"expect": "You should see:", "pitfall": "Watch out:", "verify": "Not yet verified:",
-           "copy": "Copy", "toc": "Contents", "shot": "Screenshot needed:", "insert": "Insert image:"},
+           "copy": "Copy", "toc": "Contents", "next": "Next step", "shot": "Screenshot needed:", "insert": "Insert image:"},
     "id": {"expect": "Hasil yang benar:", "pitfall": "Hati-hati:", "verify": "Belum diverifikasi:",
-           "copy": "Salin", "toc": "Daftar isi", "shot": "Screenshot dibutuhkan:", "insert": "Sisipkan gambar:"},
+           "copy": "Salin", "toc": "Daftar isi", "next": "Langkah berikutnya", "shot": "Screenshot dibutuhkan:", "insert": "Sisipkan gambar:"},
 }
 IMAGE = re.compile(r"\.(png|jpe?g|webp|gif|svg)$|^https?://", re.I)
 
@@ -187,6 +187,83 @@ def docs_html(md, L, banner, title, review=None, img_base=None):
             f"<body>{body}</body></html>")
 
 
+CTA_MARK = "WGCTAMARK"  # stands in for <!-- wg:cta --> through docs_html, which drops the wg markers
+
+
+def theme_tokens(theme=None):
+    """--wg-* tokens from the template, overridden by the theme file."""
+    css = TEMPLATE.read_text(encoding="utf-8") + (Path(theme).read_text(encoding="utf-8") if theme else "")
+    tokens = {}
+    for block in re.findall(r"\.wg-guide\s*\{([^}]*)\}", css):
+        tokens.update((k[5:], v.strip()) for k, v in re.findall(r"(--wg-[\w-]+)\s*:\s*([^;}]+)", block))
+    return tokens
+
+
+def post_callouts(body, L, theme=None):
+    """--post: each expected result, pitfall, ladder aside, and the closing CTA becomes its own Custom HTML block
+    with inline styles. The block editor keeps them as they are (wp-draft.py, or a paste into the Code editor);
+    a visual paste would strip the styles."""
+    t = theme_tokens(theme)
+    ink, brand, brand_ink = t.get("ink", "#16181d"), t.get("brand", "#1f4fd1"), t.get("brand-ink", "#ffffff")
+    line, soft, radius = t.get("line", "#e2e5ec"), t.get("soft", "#f4f6fa"), t.get("radius", "12px")
+    cta_bg, cta_ink = t.get("cta-bg", brand), t.get("cta-ink", brand_ink)
+    btn_bg, btn_ink = t.get("btn-bg", brand_ink), t.get("btn-ink", brand)
+    font = "font-family:inherit"
+
+    def block(h):
+        return f"<!-- wp:html -->\n{h}\n<!-- /wp:html -->"
+
+    def note(label, text, box, badge, glyph):
+        text = text.strip()
+        text = text[:1].upper() + text[1:]  # the label now stands on its own line, so the text starts a sentence
+        return block(
+            f'<div role="note" style="display:flex;gap:14px;align-items:flex-start;{box};border-radius:{radius};'
+            f'padding:16px 18px;margin:1.4em 0;{font};color:{ink}">'
+            f'<span aria-hidden="true" style="flex:none;width:28px;height:28px;border-radius:50%;{badge};'
+            f'font-weight:800;font-size:15px;line-height:28px;text-align:center">{glyph}</span>'
+            f'<div style="min-width:0"><p style="margin:0 0 2px;font-size:12px;font-weight:800;letter-spacing:.08em;'
+            f'text-transform:uppercase">{label.rstrip(":")}</p>'
+            f'<p style="margin:0;font-size:16px;line-height:1.6">{text.strip()}</p></div></div>')
+
+    pill = (f"display:inline-block;background:{brand};color:{brand_ink};font-weight:700;text-decoration:none;"
+            f"border-radius:999px;padding:4px 14px")
+    body = re.sub(rf"<p><strong>{re.escape(L['expect'])}</strong>(.*?)</p>",
+                  lambda m: note(L["expect"], m[1], f"background:{soft};border:1px solid {line};border-left:4px solid {ink}",
+                                 f"background:{brand};color:{brand_ink}", "&#10003;"), body, flags=re.S)
+    body = re.sub(rf"<blockquote>\s*<p><strong>{re.escape(L['pitfall'])}</strong>(.*?)</p>\s*</blockquote>",
+                  lambda m: note(L["pitfall"], m[1], f"background:{t.get('warn-bg', '#fff7e6')};border:1px solid {brand}",
+                                 f"background:{ink};color:{brand}", "!"), body, flags=re.S)
+    body = re.sub(r"<blockquote>\s*<p>(.*?)</p>\s*</blockquote>", lambda m: block(
+        f'<div style="border:2px solid {ink};border-radius:{radius};padding:16px 18px;margin:1.6em 0;{font};color:{ink}">'
+        f'<p style="margin:0;font-size:16px;line-height:1.7">'
+        + m[1].replace("<a ", f'<a style="{pill}" ') + "</p></div>"), body, flags=re.S)
+
+    if f"<p>{CTA_MARK}</p>" in body:
+        before, _, cta = body.partition(f"<p>{CTA_MARK}</p>")
+        foot = ""
+        if "<hr />" in cta:
+            cta, _, foot = cta.rpartition("<hr />")
+            foot = "<hr />" + foot
+        btn = ""
+        m = re.search(r'<p><a href="([^"]+)">(.*?)</a></p>\s*$', cta.strip(), flags=re.S)
+        if m:  # a lone link at the end is the button, the paragraph before it the not-for line
+            btn = (f'<a href="{m[1]}" style="display:inline-block;background:{btn_bg};color:{btn_ink};font-weight:700;'
+                   f'font-size:16px;text-decoration:none;border-radius:999px;padding:13px 24px;margin-top:8px">{m[2]}</a>')
+            cta = cta.strip()[:m.start()]
+            paras = re.findall(r"<p>.*?</p>", cta, flags=re.S)
+            if len(paras) > 1:
+                cta = cta.replace(paras[-1], paras[-1].replace(
+                    "<p>", f'<p style="margin:0 0 12px;font-size:14px;line-height:1.55;opacity:.8">', 1), 1)
+        cta = re.sub(r"<h2([^>]*)>", rf'<h2\1 style="margin:0 0 10px;font-size:24px;line-height:1.3;color:{cta_ink};border:0;padding:0">', cta)
+        cta = re.sub(r"<p>", '<p style="margin:0 0 10px;font-size:16px;line-height:1.6">', cta)
+        cta = cta.replace("<a href", f'<a style="color:{cta_ink}" href')
+        tag = (f'<p style="display:inline-block;margin:0 0 12px;background:{brand};color:{brand_ink};border-radius:999px;'
+               f'padding:3px 12px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase">{L["next"]}</p>')
+        body = before + block(f'<div style="background:{cta_bg};color:{cta_ink};border-radius:{radius};padding:28px 24px;'
+                              f'margin:2.4em 0;{font}">{tag}{cta.strip()}{btn}</div>') + "\n" + foot
+    return body
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("draft")
@@ -217,7 +294,11 @@ def main():
         if a.post:  # the post title is the H1: drop eyebrow, title, and chips; the subtitle opens the post
             _, _, subtitle, _, intro, body = split_hero(md)
             md = "\n\n".join(p for p in (subtitle, intro) if p) + "\n" + body
+            md = md.replace("<!-- wg:cta -->", f"{CTA_MARK}\n")
         page = docs_html(md, L, a.banner, html.escape(title), review, a.img_base)
+        if a.post:
+            head, _, rest = page.partition("<body>")
+            page = head + "<body>" + post_callouts(rest, L, a.theme)
         Path(a.out).write_text(page, encoding="utf-8")
         left = {k: page.count(k) for k in ("CTA_URL", "[NEEDS SOURCE]") if page.count(k)}
         print(f"{a.out}: {len(page)} bytes, {page.count(L['insert'])} images to insert, {page.count(L['shot'])} screenshots still needed")

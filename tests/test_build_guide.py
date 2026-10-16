@@ -136,6 +136,12 @@ def main():
     assert '<img src="https://site.test/wp-content/uploads/2026/10/step-1.1.png"' in post
     assert "Screenshot needed: the settings page" in post
     assert "<li>humans</li>\n</ul>" in post and "<li>bots</li>" in post, "wg:cols lists merged"
+    assert post.count("<!-- wp:html -->") == post.count("<!-- /wp:html -->") == 4, "expect, pitfall, aside, CTA blocks"
+    assert "<blockquote" not in post and "WGCTAMARK" not in post
+    for needle in ['text-transform:uppercase">You should see</p>', ">The app.</p>", 'uppercase">Watch out</p>',
+                   'uppercase">Next step</p>', ">Talk to us</a>", "Checked on a date"]:
+        assert needle in post, f"post missing: {needle}"
+    assert post.index("<!-- /wp:html -->\n<hr />") < post.index("Checked on a date"), "footer inside the CTA block"
 
     spec = importlib.util.spec_from_file_location("wp_draft", SCRIPT.parent / "wp-draft.py")
     wp_draft = importlib.util.module_from_spec(spec)
