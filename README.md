@@ -31,6 +31,7 @@ Each guide gets its own folder, `wagyu-output/<slug>/` (slug set in `/blueprint`
 | `/draft` | Full guide in the primary language, humanized | `04-draft.md` |
 | `/stepcheck` | Every step marked LIVE / DOC / SOURCE / USER (or ACCEPTED-OPEN for test runs), draft fixed in place | `05-stepcheck.md` |
 | `/finaldraft` | A5 quality gate, CTA, second language, guide page HTML | `guide-<slug>-<lang>.html` |
+| `self-critique` (skill) | Runs at the end of every stage: three critics (the reader, the brand owner, a senior editor) score a stage rubric, everything below 4 is fixed before saving, and the rest is logged and shown in the review brief | `06-critique.md` |
 | `/export-docs` | Optional: the guide as a Google Doc for review or handoff, with a review brief on top (promise, ladder, open steps, what to check; screenshots inserted by hand) | Google Doc via the Drive connector |
 | `/export-html` | Optional: the guide for WordPress or a page builder: a normal block-editor post (copy from the browser, paste into a post), a snippet (style + guide + script), or a fully inlined version for sites that strip `<style>` and `<script>` | `guide-<slug>-<lang>.post.html`, `.snippet.html`, `.wordpress.html` |
 

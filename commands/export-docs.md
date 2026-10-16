@@ -24,6 +24,7 @@ Write `wagyu-output/<slug>/review-brief.md` in the guide's primary language, so 
 - Gate: [what stays open and what needs signup, or "none"]
 - Stepcheck: [n] steps verified, [n] ACCEPTED-OPEN: [the open steps, or "none"]
 - Allowed claims: [scope decisions and claim limits from the blueprint]
+- Self-critique: [remaining findings from 06-critique.md, or "none"]
 
 What to check:
 - [ ] Every step works and every UI label matches the live product
