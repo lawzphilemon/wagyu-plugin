@@ -61,6 +61,7 @@ Success check: [how the reader verifies it worked]
 Time to result: [e.g. 60 to 90 minutes]
 Language: [id | en | id+en, primary: xx]
 Format: [lite | full]
+Screenshots: [user | none]  (none = text-first: no screenshots from the user's accounts)
 Free-tool stack:
 | Tool | Used for | Account needed | Free-tier limit (unverified) |
 Costs outside tools: [ad budget / none]

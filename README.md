@@ -34,6 +34,9 @@ Each guide gets its own folder, `wagyu-output/<slug>/` (slug set in `/blueprint`
 | `self-critique` (skill) | Runs at the end of every stage: three critics (the reader, the brand owner, a senior editor) score a stage rubric, everything below 4 is fixed before saving, and the rest is logged and shown in the review brief | `06-critique.md` |
 | `/export-docs` | Optional: the guide as a Google Doc for review or handoff, with a review brief on top (promise, ladder, open steps, what to check; screenshots inserted by hand) | Google Doc via the Drive connector |
 | `/export-html` | Optional: the guide for WordPress or a page builder: a normal block-editor post (copy from the browser, paste into a post), a snippet (style + guide + script), or a fully inlined version for sites that strip `<style>` and `<script>` | `guide-<slug>-<lang>.post.html`, `.snippet.html`, `.wordpress.html` |
+| `/queue` | Runs the whole pipeline from a Google Sheet: rows move ready → review (review Doc) → revisi → approved → final-doc (final Doc with a publishing brief), with every stage's self-critique and no chat confirmations; the sheet ID lives in `wagyu-output/queue.json` | Google Docs + the sheet's status, link, and notes columns |
+
+Screenshots: `user` (screenshots from the reader's accounts, inserted by the user) or `none` (text-first: positions and labels in the text, only public-page screenshots that Claude captures). Use `none` for fully automatic queue runs.
 
 Formats: `lite` (one quick win, at most 5 steps, about 1,000 words; the deeper material becomes a nurture email plan) or `full` (complete walkthrough).
 

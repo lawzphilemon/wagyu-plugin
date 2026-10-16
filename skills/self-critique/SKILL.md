@@ -42,6 +42,7 @@ Score each line 1 to 5 (5 = nothing to improve). Any line below 4 is a finding.
 - UI labels are exact and bold; every step has an expected result
 - Nothing is claimed beyond the sources and the allowed claims
 - It reads like a person wrote it (humanizer self-check passed), within the word budget
+- Text-first guides: a reader finds every control from the text alone (position and label), with no screenshot
 
 **stepcheck**
 - No step rests on a single blog or an undated source

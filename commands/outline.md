@@ -37,6 +37,7 @@ PHASE 1: [name] (~[minutes])
     — Expected result: [what the reader sees]
     — Pitfall: [from research friction, or None]
     — Screenshot: [what to capture, or None]
+    — Where: [where the control sits on screen, e.g. "top left, above the campaign list"]
   Step 1.2: ...
   CHECKPOINT: [2-4 checkable items]
   Ladder point: [None | Soft]
@@ -74,6 +75,7 @@ NURTURE PLAN    Not on the page. 3 to 4 emails, each carrying one block of the f
 - Nothing is held back from the free path: moved material goes into the free emails, never behind the paywall.
 
 ## Rules for steps
+- `Screenshots: none` in the blueprint (text-first): plan no screenshot from the reader's own accounts. Every step names where each control sits on the screen, and its expected result describes what the reader sees closely enough to know they are in the right place. Public pages (no login) may still get a screenshot that Claude captures in /stepcheck.
 - One outcome per step. The clicks that lead to it go in a numbered list under the step. If a step produces two outcomes, split it.
 - Every step has a source from research. A step without one is marked `[NEEDS SOURCE]` for /stepcheck.
 - Phases take 15 to 30 minutes each. Split longer ones.
