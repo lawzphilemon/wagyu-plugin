@@ -1,6 +1,6 @@
 ---
 name: queue
-description: Run the guide pipeline from a Google Sheet queue. Picks up rows by status (ready, revisi, approved), runs every stage with its self-critique, writes Google Docs, and writes status, links, and notes back to the sheet
+description: Run the guide pipeline from a Google Sheet queue. Picks up every waiting row (ready, revisi, approved), one subagent per row with up to 3 in parallel, runs every stage with its self-critique, writes Google Docs, and writes status, links, and notes back to the sheet
 ---
 
 # WGY-Q — Queue
@@ -41,9 +41,13 @@ English headers (Topic, Reader, Ladder, Language, Primary language, Format, Gate
 
 Statuses: `draft` (skip), `ready`, `running`, `review`, `revisi`, `approved`, `final-doc`, `done`, `error`.
 
-Finish work in progress first: all `revisi` rows, then `approved`, then `ready`, top to bottom. Default: process **one** row per run. `/queue N` processes up to N rows, `/queue all` processes every waiting row. Skip a row whose required inputs are empty, set it to `error`, and name the missing column.
+Default: process **every waiting row** in one run: every `revisi`, `approved`, and `ready` row whose topic is filled in. `/queue N` limits the run to N rows (work in progress first: `revisi`, then `approved`, then `ready`, top to bottom). Skip a row whose required inputs are empty, set it to `error`, and name the missing column.
 
-Before a row starts, set its status to `running` and write the timestamp, so a second session doesn't pick it up.
+Before a row starts, set its status to `running` and write the timestamp, so a second session or a scheduled run doesn't pick it up.
+
+**One row, one agent.** With more than one waiting row, give each row its own subagent (Agent tool, general-purpose) and run up to **3 at a time**; start the next row when one finishes. Each subagent gets: the config, its row number and values, the slug, and the instruction to follow section 4 of this command for that row only, including every stage's self-critique, and to write back only its own row. Rows never share a `wagyu-output/` folder, so they can't overwrite each other. A single waiting row runs in this session, without a subagent.
+
+Collect each subagent's one-line report for section 5. A subagent that stops without writing back leaves its row on `running`: set that row to `error` with the reason it gave.
 
 ## 4. Per status
 
@@ -70,7 +74,11 @@ Every stage ends with the `self-critique` skill. In this mode, a stage's confirm
 
 **Errors:** any stage that can't finish sets the row to `error`, writes the reason in the notes, and the run moves on to the next row. Never leave a row on `running`.
 
-## 5. Report
+## 5. Scheduled runs
+
+To pick up `ready` rows without anyone typing the command, schedule `/wagyu:queue` (a local scheduled task, for example every morning) in a session whose working directory holds `wagyu-output/`. A scheduled run follows the same rules and ends at Google Docs. If no row is waiting, it stops without writing anything.
+
+## 6. Report
 
 One line per row in chat: `Row [n] [slug]: [old status] → [new status] · [Doc link] · [notes summary]`.
 
