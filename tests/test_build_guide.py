@@ -1,4 +1,5 @@
 """Smoke test for scripts/build-guide.py. Run: python tests/test_build_guide.py (needs pandoc)."""
+import importlib.util
 import shutil
 import subprocess
 import sys
@@ -135,6 +136,13 @@ def main():
     assert '<img src="https://site.test/wp-content/uploads/2026/10/step-1.1.png"' in post
     assert "Screenshot needed: the settings page" in post
     assert "<li>humans</li>\n</ul>" in post and "<li>bots</li>" in post, "wg:cols lists merged"
+
+    spec = importlib.util.spec_from_file_location("wp_draft", SCRIPT.parent / "wp-draft.py")
+    wp_draft = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(wp_draft)
+    wp_body = wp_draft.add_more(wp_draft.post_body(post), "open the app")
+    assert wp_body.startswith("<p>A subtitle for testing.</p>") and "<body" not in wp_body, wp_body[:120]
+    assert wp_body.index("<!-- wp:more -->\n<!--more-->") < wp_body.index("Open the app") < wp_body.index("Click"), "more tag misplaced"
 
     with tempfile.TemporaryDirectory() as d:
         draft, out = Path(d, "04-draft.md"), Path(d, "guide.snippet.html")
