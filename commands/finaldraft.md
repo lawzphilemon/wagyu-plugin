@@ -10,7 +10,7 @@ allowed-tools: Read, Write, Bash, WebFetch
 
 **Guide folder:** `wagyu-output/<slug>/`, using the slug from the conversation. If it's unclear, list the folders in `wagyu-output/`: use the only one, or ask which guide.
 
-**Dependency:** `wagyu-output/<slug>/04-draft.md` and `05-stepcheck.md`. Every step must be `LIVE`, `DOC`, or `USER`. Any `FAIL` or `OPEN` step → stop and say "Run /stepcheck first". `ACCEPTED-OPEN` steps allow a test build only: pass `--banner` (step 4) and report that the page is not publish-ready. Read `01-blueprint.md` and `03-outline.md` as needed.
+**Dependency:** `wagyu-output/<slug>/04-draft.md` and `05-stepcheck.md`. Every step must be `LIVE`, `DOC`, `SOURCE`, or `USER`. Any `FAIL` or `OPEN` step → stop and say "Run /stepcheck first". `ACCEPTED-OPEN` steps allow a test build only: pass `--banner` (step 4) and report that the page is not publish-ready. Read `01-blueprint.md` and `03-outline.md` as needed.
 
 ## 1. Collect the ladder details
 
@@ -30,12 +30,13 @@ Re-run the humanizer (`humanizer-id` / `humanizer-en`) silently, then check ever
 - [ ] **100% free path:** no step needs a paid plan, card-required trial, or paid add-on. Ad spend, if any, is stated in the subtitle.
 - [ ] **Limits dated:** every free-tier limit shows the date it was checked in /stepcheck.
 - [ ] **Executable:** every step has one outcome, numbered sub-actions with exact bold UI labels, and an expected result.
-- [ ] **Verified:** every step is `LIVE`, `DOC`, or `USER` in `05-stepcheck.md`. Any `ACCEPTED-OPEN` fails this item: test build only.
+- [ ] **Verified:** every step is `LIVE`, `DOC`, `SOURCE`, or `USER` in `05-stepcheck.md`. Any `ACCEPTED-OPEN` fails this item: test build only.
 - [ ] **Asset:** at least one complete, copy-ready asset.
 - [ ] **Troubleshooting:** covers the top friction points from research (lite: the top 3).
 - [ ] **Nothing held back:** no "the full method is in premium" and no step that only works after buying.
 - [ ] **Ladder discipline:** at most 3 ladder points including the closing, none before the first checkpoint, none inside a phase.
 - [ ] **Honest close:** the closing names the wall, the bridge, and who premium is not for.
+- [ ] **No invented experience:** no first-hand claims, client stories, or results the user didn't supply.
 - [ ] **Beats the alternatives:** each A5 angle from research is actually in the guide.
 - [ ] **Humanizer self-check passed.** No em dashes in body text.
 - [ ] **Lite fits (lite only):** at most 5 steps, about 1,000 words excluding prompts, and `04-nurture-plan.md` saved, with every block cut from the page placed in an email.

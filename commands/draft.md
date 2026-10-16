@@ -75,3 +75,4 @@ End: "Review the draft, then run /stepcheck."
 ## Rules
 - No draft without a confirmed outline.
 - A step marked `[NEEDS SOURCE]` stays marked. Do not fill it from memory.
+- Never invent experience: no "kami sudah pernah", "from our experience", client stories, or results unless the user supplies them for this guide. The humanizer's experience examples (G5, P30) apply only to what the user gives. Otherwise the examples are dated sources and verified data.
