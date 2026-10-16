@@ -20,7 +20,7 @@ If the guide has screenshot files, ask for the folder URL they'll be uploaded to
 
 | Output | Flag | Use when |
 |---|---|---|
-| Post | `--post` | The guide becomes a normal WordPress post in the block editor: plain HTML the user opens in a browser, copies, and pastes into an empty post, where headings, lists, tables, quotes, and images turn into blocks styled by the theme. No Custom HTML block. Needs `--img-base` for the screenshots. |
+| Post | `--post` | The guide becomes a normal WordPress post in the block editor: plain HTML the user opens in a browser, copies, and pastes into an empty post, where headings, lists, tables, and images turn into blocks styled by the theme. Expected results, pitfalls, ladder asides, and the closing CTA become their own Custom HTML blocks with inline styles (colors from `--theme`). Those survive `scripts/wp-draft.py` or a paste into the Code editor; a visual paste strips their styles. Needs `--img-base` for the screenshots. |
 | Snippet | `--snippet` | The site keeps `<style>` and `<script>` (WordPress admin with unfiltered HTML, Elementor HTML widget). Has copy buttons. |
 | WordPress | `--wordpress` | The site strips `<style>`/`<script>` on save, so CSS or JavaScript shows up as text on the page. Every style is inlined, no script or copy buttons, no H1 (the post title already is one), and screenshots still missing are left out. Needs `python -m pip install premailer`. |
 
@@ -47,7 +47,7 @@ Send the file path and reveal it in the file manager. Don't paste the code in ch
 ```text
 HTML ready: wagyu-output/<slug>/guide-<slug>-<lang>.[post|snippet|wordpress].html
 Paste it into:
-- Post (.post.html): open the file in a browser, Ctrl+A, Ctrl+C, then paste into the first empty block of a new post. Set the title to the guide's H1. Check that the prompts and assets landed as Code or Preformatted blocks; convert any that became paragraphs. On a membership site that shows only the opening lines before the signup box, those lines are the guide's subtitle: read them as a visitor would.
+- Post (.post.html): send it with `scripts/wp-draft.py`, or open the file in a text editor, copy everything between `<body>` and `</body>`, and paste it into the Code editor of a new post (Options → Code editor), so the callouts stay Custom HTML blocks. Set the title to the guide's H1. Check that the prompts and assets landed as Code or Preformatted blocks; convert any that became paragraphs. On a membership site that shows only the opening lines before the signup box, those lines are the guide's subtitle: read them as a visitor would.
 - WordPress: one Custom HTML block (block editor), the Text tab (Classic Editor), or an HTML widget (Elementor). Never a Paragraph block, the Visual tab, or a Text Editor widget.
 Before publishing:
 - Set the page to noindex and leave it out of the sitemap (in Yoast or Rank Math: "Allow search engines to show this page: No").

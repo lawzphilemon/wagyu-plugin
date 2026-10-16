@@ -9,7 +9,7 @@ POST.html is the output of build-guide.py --post. --more-before puts a More tag 
 contains the text, so a gate that honors it shows everything above as the public teaser. --category takes
 existing category slugs (a missing slug stops the run; nothing is created).
 Auth: WP_GUIDES_AUTH = base64 of "username:application password" (WordPress Users > Profile > Application Passwords).
-Prints the draft's edit and preview links. The post lands as Classic blocks around a More block. It renders as is;
+Prints the draft's edit and preview links. The post lands as Classic blocks around a More block, with the callouts as Custom HTML blocks. It renders as is;
 "Convert to blocks" on each Classic block is optional.
 """
 import argparse
