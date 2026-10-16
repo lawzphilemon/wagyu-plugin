@@ -4,6 +4,8 @@ Claude Code plugin for gated free guides (lead magnets): A5-quality walkthroughs
 
 Rule of the ladder: **free = the full way to do it yourself; premium = speed, scale, or done for you.** The guide never holds back steps to sell.
 
+Topics are open: a guide doesn't have to be something you've done before, but it always ladders to a Gwenchana service available now, and the free guide itself stays A5 quality. Claude verifies every step live, against official docs, or against current independent sources; your own walkthrough is optional. No guide claims experience you didn't supply.
+
 ## Install
 
 ```text
@@ -27,7 +29,7 @@ Each guide gets its own folder, `wagyu-output/<slug>/` (slug set in `/blueprint`
 | `/research` | Official docs, current free-tier limits, reader friction, competitor freebies, the A5 angle | `02-research.md` |
 | `/outline` | Phases, single-outcome steps, assets, checkpoints, max 3 ladder points | `03-outline.md` |
 | `/draft` | Full guide in the primary language, humanized | `04-draft.md` |
-| `/stepcheck` | Every step marked LIVE / DOC / USER (or ACCEPTED-OPEN for test runs), draft fixed in place | `05-stepcheck.md` |
+| `/stepcheck` | Every step marked LIVE / DOC / SOURCE / USER (or ACCEPTED-OPEN for test runs), draft fixed in place | `05-stepcheck.md` |
 | `/finaldraft` | A5 quality gate, CTA, second language, guide page HTML | `guide-<slug>-<lang>.html` |
 | `/export-docs` | Optional: the guide as a Google Doc for review or handoff (text and structure; screenshots inserted by hand) | Google Doc via the Drive connector |
 | `/export-html` | Optional: the guide as paste-ready HTML code for a WordPress Custom HTML block or page builder: a snippet (style + guide + script), or a fully inlined version for sites that strip `<style>` and `<script>` | `guide-<slug>-<lang>.snippet.html`, `guide-<slug>-<lang>.wordpress.html` |

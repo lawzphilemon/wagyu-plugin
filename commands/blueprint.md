@@ -13,12 +13,12 @@ allowed-tools: Read, Write
 Ask for everything missing in one message:
 - The reader's problem or topic.
 - Target reader: who they are, business type, current skill level.
-- Premium service line it ladders to: `seo-geo`, `meta-ads`, or `google-ads` (see the `gwenchana-offer` skill).
+- Premium service it ladders to: a Gwenchana service available now. That is `seo-geo`, `meta-ads`, or `google-ads` (see the `gwenchana-offer` skill), or another service the user confirms is available, by name. Topics are open: the guide doesn't have to be something the user or the team has done before (/research and /stepcheck verify it), but it always ladders to an available service.
 - Language: `id`, `en`, or `id+en`. For `id+en`, which one is primary.
 - Format: `lite` or `full`. Recommend `lite` for lead magnets: one quick win a reader finishes in one sitting, with the deeper material moved into the nurture emails. `full` is a complete walkthrough.
 - Brand context: if a `context_profile.json` or brand profile exists in the project or conversation, read it. Otherwise skip.
 
-If the user has no topic yet, propose three from the `gwenchana-offer` idea list that fit the reader.
+If the user has no topic yet, propose three that fit the reader. The `gwenchana-offer` idea list is a starting point, not a limit.
 
 ## Step 2 — One promise
 
@@ -42,6 +42,8 @@ From `gwenchana-offer`, pick the wall the reader hits **after** finishing, the p
 
 The guide must deliver the full promise without buying anything. If the promise only works with premium, shrink the promise.
 
+If no available service fits the topic, change or narrow the topic until one does. For a service outside `gwenchana-offer`, the wall and the not-for criterion come from the user. Never fill them in from memory.
+
 ## Step 5 — Save and confirm
 
 Pick a short kebab-case slug for the guide (for example `meta-ads-claude`) and confirm it with the user. Every stage of this guide lives in `wagyu-output/<slug>/`, so several guides never overwrite each other. Save to `wagyu-output/<slug>/01-blueprint.md` (overwrite if it exists), deliver it in chat, and ask for confirmation. On confirmation, apply requested changes and add `Status: confirmed` as the first line.
@@ -60,7 +62,7 @@ Free-tool stack:
 Costs outside tools: [ad budget / none]
 Future guides: [split-off promises]
 Ladder:
-  Service line: [seo-geo | meta-ads | google-ads]
+  Service line: [seo-geo | meta-ads | google-ads | other: service name the user confirmed]
   Wall: [what they hit next]
   Bridge: [how premium removes it, in service-name terms only]
   Not for premium if: [honest criterion]
@@ -71,3 +73,4 @@ End: "Confirm the blueprint, then run /research."
 ## Rules
 - One guide, one promise.
 - Never invent premium scope, prices, or results. Ask, or leave them out.
+- An open topic needs no prior experience. The guide rests on sources that get verified, never on invented experience.

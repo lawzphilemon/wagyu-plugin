@@ -13,13 +13,15 @@ description: Gwenchana premium service lines (SEO/GEO, Meta Ads, Google Ads) and
 | `meta-ads` | Performance Ads: Meta Ads (Facebook and Instagram) |
 | `google-ads` | Performance Ads: Google Ads |
 
+A guide may also ladder to another Gwenchana service the user confirms is available now. The user gives its name and wall in the session. Never add one from memory.
+
 This file holds only the service names. Scope, deliverables, price, minimum contract, case studies, results, and the CTA destination come from the user in the session. If one is needed and missing, ask. Never write a contact number, email, or booking link into this repo.
 
 ## Brand theme
 
 Guide pages and HTML exports use `assets/themes/gwenchana.css` (Citron #ECCE22, Obsidian #1E1E1E, Montserrat), taken from the Gwenchana marketing site's design tokens.
 
-## Free guide ideas that ladder well
+## Free guide ideas that ladder well (starting points; topics are open)
 
 A good freebie gives a finished result the reader can check, using free tools only.
 
