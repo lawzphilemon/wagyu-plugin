@@ -165,7 +165,7 @@ def wordpress(page, title):
 
 def docs_html(md, L, banner, title, review=None, img_base=None):
     """Plain HTML that Google Docs and the WordPress block editor import cleanly: headings, lists, tables, code, links."""
-    md = re.sub(r"^<!-- /?wg:[a-z]+ -->\n?", "", md, flags=re.M)
+    md = re.sub(r"^<!-- /?wg:[a-z]+ -->$", "", md, flags=re.M)  # keep the line empty, so a list above it ends
     if review:  # reviewer brief above the guide, cut off by a rule
         md = f"{review.strip()}\n\n---\n\n{md}"
     md = md.replace("[VERIFY]", f"**{L['verify']}**")

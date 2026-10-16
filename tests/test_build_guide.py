@@ -23,8 +23,12 @@ A subtitle for testing.
 
 <!-- wg:cols -->
 **For:** people.
+
+- humans
 <!-- wg:col -->
 **Not for:** robots.
+
+- bots
 <!-- /wg:cols -->
 
 ## Phase 1: Start
@@ -130,6 +134,7 @@ def main():
     assert "<h1" not in body and "Free Guide · Test" not in body and "10 min · Beginner" not in body
     assert '<img src="https://site.test/wp-content/uploads/2026/10/step-1.1.png"' in post
     assert "Screenshot needed: the settings page" in post
+    assert "<li>humans</li>\n</ul>" in post and "<li>bots</li>" in post, "wg:cols lists merged"
 
     with tempfile.TemporaryDirectory() as d:
         draft, out = Path(d, "04-draft.md"), Path(d, "guide.snippet.html")
