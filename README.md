@@ -46,6 +46,8 @@ Languages: `id`, `en`, or `id+en`. The second language is localized after verifi
 
 `/finaldraft` builds the page with `scripts/build-guide.py` (needs Python 3 and [pandoc](https://pandoc.org/installing.html)) from the draft's page conventions, described in `commands/draft.md`. Brand themes live in `assets/themes/` (Gwenchana: `gwenchana.css`). The result fills `assets/guide-template.html`, a self-contained page (no external requests, `noindex`) with scoped CSS under `.wg-guide`. Host it on an unlisted URL, or paste it into a WordPress Custom HTML block. Your email tool does the gating by sending the URL in the welcome email, or the site's own form unlocks the guide at the `<!-- wg:gate -->` marker.
 
+`scripts/wp-draft.py` sends a `--post` build to WordPress as a **draft** (never published) through the REST API, with a More block where the public teaser ends. Auth comes from `WP_GUIDES_AUTH` (base64 of `username:application password`); `/wagyu:queue` uses it when `queue.json` has `wp_site`.
+
 Some WordPress setups strip `<style>` and `<script>` on save, and the leftover CSS shows up as text above the guide. `--wordpress` avoids that: every style is inlined, with no script, no copy buttons, and no H1 (the post title already is one). It needs `python -m pip install premailer`.
 
 ## Examples
