@@ -176,7 +176,7 @@ def docs_html(md, L, banner, title, review=None, img_base=None):
         if IMAGE.search(src) and (img_base or src.startswith("http")):  # an image someone can fetch
             url = src if src.startswith("http") else img_base.rstrip("/") + "/" + Path(src).name
             return f"![{alt or Path(src).stem}]({url})"
-        return f"*[{L['insert'] if IMAGE.search(m[1]) else L['shot']} {m[1]}]*"
+        return f"*[{L['insert'] if IMAGE.search(src) else L['shot']} {m[1]}]*"
     md = re.sub(r"\[SCREENSHOT: (.*?)\]", shot, md)
     if banner:
         md = f"**{banner}**\n\n{md}"
