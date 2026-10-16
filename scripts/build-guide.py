@@ -3,10 +3,15 @@
 
 Usage:
   build-guide.py DRAFT.md OUT.html --lang en|id --cta-url URL
-                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--img-base URL] [--docs | --snippet | --wordpress]
+                 [--brand "#1f4fd1" --brand-ink "#ffffff"] [--banner TEXT] [--img-base URL] [--review FILE]
+                 [--docs | --post | --snippet | --wordpress]
 
 --docs writes plain HTML for Google Docs import instead of the page: no template, buttons, or script,
-and screenshots become "[Insert image: ...]" markers. --review FILE puts a Markdown reviewer brief above it.
+and screenshots become "[Insert image: ...]" markers (real images with --img-base). --review FILE puts a Markdown
+reviewer brief above it.
+--post writes the same plain HTML for a WordPress post: open it in a browser, copy all, and paste into the block
+editor (headings, lists, tables, and images become blocks). The post title is the H1, so the eyebrow, title, and
+chips are left out and the subtitle opens the post. Use --img-base so screenshots become images.
 --snippet writes paste-ready HTML code (<style> + guide + <script>, no <html>/<head>) for a
 WordPress Custom HTML block or a page builder. The host page must be set to noindex itself.
 --wordpress writes one block with every style inlined and no <style>, <script>, copy buttons, or H1, for
@@ -158,15 +163,21 @@ def wordpress(page, title):
             f"Set this page to noindex. -->\n{body}\n")
 
 
-def docs_html(md, L, banner, title, review=None):
-    """Plain HTML that Google Docs imports cleanly: headings, lists, tables, code, links."""
+def docs_html(md, L, banner, title, review=None, img_base=None):
+    """Plain HTML that Google Docs and the WordPress block editor import cleanly: headings, lists, tables, code, links."""
     md = re.sub(r"^<!-- /?wg:[a-z]+ -->\n?", "", md, flags=re.M)
     if review:  # reviewer brief above the guide, cut off by a rule
         md = f"{review.strip()}\n\n---\n\n{md}"
     md = md.replace("[VERIFY]", f"**{L['verify']}**")
     md = re.sub(r"\n(Cause|Fix|Penyebab|Solusi):", r"  \n**\1:**", md)  # own line in Docs
-    md = re.sub(r"\[SCREENSHOT: (.*?)\]",
-                lambda m: f"*[{L['insert'] if IMAGE.search(m[1]) else L['shot']} {m[1]}]*", md)
+
+    def shot(m):
+        src, _, alt = (p.strip() for p in m[1].partition(" | "))
+        if IMAGE.search(src) and (img_base or src.startswith("http")):  # an image someone can fetch
+            url = src if src.startswith("http") else img_base.rstrip("/") + "/" + Path(src).name
+            return f"![{alt or Path(src).stem}]({url})"
+        return f"*[{L['insert'] if IMAGE.search(m[1]) else L['shot']} {m[1]}]*"
+    md = re.sub(r"\[SCREENSHOT: (.*?)\]", shot, md)
     if banner:
         md = f"**{banner}**\n\n{md}"
     body = re.sub(r'<li><label><input type="checkbox" (?:\w+="" )*/>(.*?)</label></li>',
@@ -192,6 +203,7 @@ def main():
     mode.add_argument("--docs", action="store_true")
     mode.add_argument("--snippet", action="store_true")
     mode.add_argument("--wordpress", action="store_true")
+    mode.add_argument("--post", action="store_true")
     a = ap.parse_args()
     L = LABELS[a.lang]
 
@@ -199,10 +211,13 @@ def main():
     if md.startswith("Status:"):
         md = md.split("\n", 1)[1]
     md = md.replace("CTA_URL", a.cta_url)
-    if a.docs:
+    if a.docs or a.post:
         title = next((l[2:].strip() for l in md.splitlines() if l.startswith("# ")), "Guide")
-        review = Path(a.review).read_text(encoding="utf-8") if a.review else None
-        page = docs_html(md, L, a.banner, html.escape(title), review)
+        review = Path(a.review).read_text(encoding="utf-8") if a.review and a.docs else None
+        if a.post:  # the post title is the H1: drop eyebrow, title, and chips; the subtitle opens the post
+            _, _, subtitle, _, intro, body = split_hero(md)
+            md = "\n\n".join(p for p in (subtitle, intro) if p) + "\n" + body
+        page = docs_html(md, L, a.banner, html.escape(title), review, a.img_base)
         Path(a.out).write_text(page, encoding="utf-8")
         left = {k: page.count(k) for k in ("CTA_URL", "[NEEDS SOURCE]") if page.count(k)}
         print(f"{a.out}: {len(page)} bytes, {page.count(L['insert'])} images to insert, {page.count(L['shot'])} screenshots still needed")

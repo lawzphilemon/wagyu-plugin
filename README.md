@@ -32,7 +32,7 @@ Each guide gets its own folder, `wagyu-output/<slug>/` (slug set in `/blueprint`
 | `/stepcheck` | Every step marked LIVE / DOC / SOURCE / USER (or ACCEPTED-OPEN for test runs), draft fixed in place | `05-stepcheck.md` |
 | `/finaldraft` | A5 quality gate, CTA, second language, guide page HTML | `guide-<slug>-<lang>.html` |
 | `/export-docs` | Optional: the guide as a Google Doc for review or handoff, with a review brief on top (promise, ladder, open steps, what to check; screenshots inserted by hand) | Google Doc via the Drive connector |
-| `/export-html` | Optional: the guide as paste-ready HTML code for a WordPress Custom HTML block or page builder: a snippet (style + guide + script), or a fully inlined version for sites that strip `<style>` and `<script>` | `guide-<slug>-<lang>.snippet.html`, `guide-<slug>-<lang>.wordpress.html` |
+| `/export-html` | Optional: the guide for WordPress or a page builder: a normal block-editor post (copy from the browser, paste into a post), a snippet (style + guide + script), or a fully inlined version for sites that strip `<style>` and `<script>` | `guide-<slug>-<lang>.post.html`, `.snippet.html`, `.wordpress.html` |
 
 Formats: `lite` (one quick win, at most 5 steps, about 1,000 words; the deeper material becomes a nurture email plan) or `full` (complete walkthrough).
 

@@ -118,6 +118,20 @@ def main():
     assert "<!-- wg:" not in doc and "<script" not in doc and "wg-copy" not in doc
 
     with tempfile.TemporaryDirectory() as d:
+        draft, out = Path(d, "04-draft.md"), Path(d, "guide.post.html")
+        draft.write_text(DRAFT, encoding="utf-8")
+        r = subprocess.run([sys.executable, str(SCRIPT), str(draft), str(out), "--lang", "en",
+                            "--cta-url", "https://example.com/cta", "--post",
+                            "--img-base", "https://site.test/wp-content/uploads/2026/10/"], capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr + r.stdout
+        post = out.read_text(encoding="utf-8")
+    body = post.split("<body>")[1]
+    assert body.lstrip().startswith("<p>A subtitle for testing.</p>"), body[:120]
+    assert "<h1" not in body and "Free Guide · Test" not in body and "10 min · Beginner" not in body
+    assert '<img src="https://site.test/wp-content/uploads/2026/10/step-1.1.png"' in post
+    assert "Screenshot needed: the settings page" in post
+
+    with tempfile.TemporaryDirectory() as d:
         draft, out = Path(d, "04-draft.md"), Path(d, "guide.snippet.html")
         draft.write_text(DRAFT, encoding="utf-8")
         r = subprocess.run([sys.executable, str(SCRIPT), str(draft), str(out), "--lang", "en",
