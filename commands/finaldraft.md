@@ -50,6 +50,10 @@ Localize the finished primary guide into the other language. This is adaptation,
 - Examples, currency, and local references adapted to the audience.
 - Run the matching humanizer and the gate again.
 
+## Self-critique
+
+Before saving, run the `self-critique` skill for this stage (finaldraft): score the rubric, fix every line below 4, and log it in `06-critique.md`.
+
 ## 4. Build the page
 
 For each language, run the builder (needs Python 3 and pandoc):

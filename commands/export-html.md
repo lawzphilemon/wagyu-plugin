@@ -1,6 +1,6 @@
 ---
 name: export-html
-description: Export a finished guide as paste-ready HTML code for a WordPress Custom HTML block or a page builder, either with its own style and script or fully inlined for sites that strip those tags
+description: Export a finished guide as paste-ready HTML code for a normal WordPress post, a Custom HTML block, or a page builder: either with its own style and script or fully inlined for sites that strip those tags
 allowed-tools: Read, Bash
 ---
 
@@ -20,16 +20,18 @@ If the guide has screenshot files, ask for the folder URL they'll be uploaded to
 
 | Output | Flag | Use when |
 |---|---|---|
+| Post | `--post` | The guide becomes a normal WordPress post in the block editor: plain HTML the user opens in a browser, copies, and pastes into an empty post, where headings, lists, tables, quotes, and images turn into blocks styled by the theme. No Custom HTML block. Needs `--img-base` for the screenshots. |
 | Snippet | `--snippet` | The site keeps `<style>` and `<script>` (WordPress admin with unfiltered HTML, Elementor HTML widget). Has copy buttons. |
 | WordPress | `--wordpress` | The site strips `<style>`/`<script>` on save, so CSS or JavaScript shows up as text on the page. Every style is inlined, no script or copy buttons, no H1 (the post title already is one), and screenshots still missing are left out. Needs `python -m pip install premailer`. |
 
-If you don't know yet, build both and say which to try first: `--wordpress` is the safe default for WordPress.
+If you don't know yet, ask which editor the site uses. For the WordPress block editor, `--post` is the default; `--wordpress` keeps the guide's own look inside one Custom HTML block.
 
 ## 3. Build
 
 For each language:
 
 ```bash
+python "${CLAUDE_PLUGIN_ROOT}/scripts/build-guide.py" wagyu-output/<slug>/04-draft.md wagyu-output/<slug>/guide-<slug>-<lang>.post.html --lang <lang> --cta-url "<CTA URL>" --post --img-base "<URL>"
 python "${CLAUDE_PLUGIN_ROOT}/scripts/build-guide.py" wagyu-output/<slug>/04-draft.md wagyu-output/<slug>/guide-<slug>-<lang>.snippet.html --lang <lang> --cta-url "<CTA URL>" --snippet --theme "${CLAUDE_PLUGIN_ROOT}/assets/themes/gwenchana.css" [--img-base "<URL>"] [--banner "..."]
 python "${CLAUDE_PLUGIN_ROOT}/scripts/build-guide.py" wagyu-output/<slug>/04-draft.md wagyu-output/<slug>/guide-<slug>-<lang>.wordpress.html --lang <lang> --cta-url "<CTA URL>" --wordpress --theme "${CLAUDE_PLUGIN_ROOT}/assets/themes/gwenchana.css" [--img-base "<URL>"] [--banner "..."]
 ```
@@ -43,8 +45,9 @@ Open the file in a browser before delivering: check one step, one image, the cod
 Send the file path and reveal it in the file manager. Don't paste the code in chat unless the user asks: it is long, and a paste from chat can pick up formatting.
 
 ```text
-HTML code ready: wagyu-output/<slug>/guide-<slug>-<lang>.[snippet|wordpress].html
+HTML ready: wagyu-output/<slug>/guide-<slug>-<lang>.[post|snippet|wordpress].html
 Paste it into:
+- Post (.post.html): open the file in a browser, Ctrl+A, Ctrl+C, then paste into the first empty block of a new post. Set the title to the guide's H1. Check that the prompts and assets landed as Code or Preformatted blocks; convert any that became paragraphs. On a membership site that shows only the opening lines before the signup box, those lines are the guide's subtitle: read them as a visitor would.
 - WordPress: one Custom HTML block (block editor), the Text tab (Classic Editor), or an HTML widget (Elementor). Never a Paragraph block, the Visual tab, or a Text Editor widget.
 Before publishing:
 - Set the page to noindex and leave it out of the sitemap (in Yoast or Rank Math: "Allow search engines to show this page: No").

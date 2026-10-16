@@ -66,6 +66,10 @@ If the blueprint says `Format: lite`: one `##` section for the steps (no phase h
 
 Silently apply `humanizer-id` or `humanizer-en` to match the language. Run its self-check and fix failures. Keep UI labels, code, and asset content untouched by the humanizer.
 
+## Self-critique
+
+Before saving, run the `self-critique` skill for this stage (draft): score the rubric, fix every line below 4, and log it in `06-critique.md`.
+
 ## Save
 
 Save to `wagyu-output/<slug>/04-draft.md` (overwrite if it exists) and deliver it in chat.

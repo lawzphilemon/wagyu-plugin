@@ -57,6 +57,10 @@ For the ones still open, write a short optional checklist the user can run on th
 
 The user may run it or skip it. Skipped items get `[VERIFY]` in /outline and are settled in /stepcheck. Record your own results and any answers in `wagyu-output/<slug>/05-stepcheck.md` under "Pre-draft checks" (`LIVE`, `DOC`, `SOURCE`, or `USER`).
 
+## Self-critique
+
+Before saving, run the `self-critique` skill for this stage (research): score the rubric, fix every line below 4, and log it in `06-critique.md`.
+
 ## Save
 
 Save to `wagyu-output/<slug>/02-research.md` (overwrite if it exists) with the browsing mode and today's date, then deliver it in chat.

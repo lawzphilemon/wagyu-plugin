@@ -61,6 +61,10 @@ Free-tier limits rechecked: [tool → limit → URL]
 Screenshots still needed: [list of SCREENSHOT placeholders]
 ```
 
+## Self-critique
+
+Before saving, run the `self-critique` skill for this stage (stepcheck): score the rubric, fix every line below 4, and log it in `06-critique.md`.
+
 End: "Run /finaldraft when every step is LIVE, DOC, SOURCE, or USER." (With `ACCEPTED-OPEN` steps: "Run /finaldraft for a test build with a banner; the page is not publish-ready.")
 
 ## Rules

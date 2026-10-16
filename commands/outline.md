@@ -79,6 +79,10 @@ NURTURE PLAN    Not on the page. 3 to 4 emails, each carrying one block of the f
 - Phases take 15 to 30 minutes each. Split longer ones.
 - Ladder points: at most 3 in total, including the closing. Only after a checkpoint (the reader just got a win) or at the close. Never inside a phase and never before the first checkpoint.
 
+## Self-critique
+
+Before saving, run the `self-critique` skill for this stage (outline): score the rubric, fix every line below 4, and log it in `06-critique.md`.
+
 ## Confirm
 
 Save to `wagyu-output/<slug>/03-outline.md` (overwrite if it exists) and deliver it in chat. On confirmation, apply requested changes and add `Status: confirmed` as the first line.

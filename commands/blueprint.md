@@ -44,6 +44,10 @@ The guide must deliver the full promise without buying anything. If the promise 
 
 If no available service fits the topic, change or narrow the topic until one does. For a service outside `gwenchana-offer`, the wall and the not-for criterion come from the user. Never fill them in from memory.
 
+## Self-critique
+
+Before saving, run the `self-critique` skill for this stage (blueprint): score the rubric, fix every line below 4, and log it in `06-critique.md`.
+
 ## Step 5 — Save and confirm
 
 Pick a short kebab-case slug for the guide (for example `meta-ads-claude`) and confirm it with the user. Every stage of this guide lives in `wagyu-output/<slug>/`, so several guides never overwrite each other. Save to `wagyu-output/<slug>/01-blueprint.md` (overwrite if it exists), deliver it in chat, and ask for confirmation. On confirmation, apply requested changes and add `Status: confirmed` as the first line.
