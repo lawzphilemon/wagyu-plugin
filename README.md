@@ -8,10 +8,24 @@ Topics are open: a guide doesn't have to be something you've done before, but it
 
 ## Install
 
+**Claude Code:**
 ```text
 /plugin marketplace add lawzphilemon/wagyu-plugin
 /plugin install wagyu@wagyu-plugin
 ```
+
+**Hermes Agent:**
+```bash
+hermes skills install github:lawzphilemon/wagyu-plugin/hermes-skills/wagyu
+hermes skills install github:lawzphilemon/wagyu-plugin/hermes-skills/humanizer-id
+hermes skills install github:lawzphilemon/wagyu-plugin/hermes-skills/humanizer-en
+hermes skills install github:lawzphilemon/wagyu-plugin/hermes-skills/self-critique
+hermes skills install github:lawzphilemon/wagyu-plugin/hermes-skills/gwenchana-offer
+```
+
+Or copy the `hermes-skills/` folder contents directly into `~/.hermes/skills/`.
+
+Then start with `/wagyu` in Hermes.
 
 ## Pipeline
 
