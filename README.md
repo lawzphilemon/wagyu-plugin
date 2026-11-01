@@ -57,6 +57,16 @@ Formats: `lite` (one quick win, at most 5 steps, about 1,000 words; the deeper m
 
 Languages: `id`, `en`, or `id+en`. The second language is localized after verification, with UI labels as each interface shows them.
 
+## Running as an agent
+
+`agents/wagyu.md` runs the whole session as the WAGYU orchestrator on Sonnet, with Opus as advisor:
+
+```bash
+claude --agent wagyu:wagyu --advisor opus
+```
+
+Then ask it to run the queue. It follows `/queue` as written, gives each row a Sonnet subagent, and hands read-only lookups (official docs and UI labels, free-tier limits, reader friction, competitor freebies, stepcheck evidence, existing `wagyu-output/` guides) to `wagyu-scout` on Haiku. It consults the advisor before the blueprint or outline locks, after the same error twice on a row, and before a row moves to `review` or `final-doc`. The advisor needs the Anthropic API and Claude Code with `/advisor` support; without it the agent runs those checks itself.
+
 ## Guide page
 
 `/finaldraft` builds the page with `scripts/build-guide.py` (needs Python 3 and [pandoc](https://pandoc.org/installing.html)) from the draft's page conventions, described in `commands/draft.md`. Brand themes live in `assets/themes/` (Gwenchana: `gwenchana.css`). The result fills `assets/guide-template.html`, a self-contained page (no external requests, `noindex`) with scoped CSS under `.wg-guide`. Host it on an unlisted URL, or paste it into a WordPress Custom HTML block. Your email tool does the gating by sending the URL in the welcome email, or the site's own form unlocks the guide at the `<!-- wg:gate -->` marker.
