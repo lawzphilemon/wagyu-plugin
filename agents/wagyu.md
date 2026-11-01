@@ -42,7 +42,7 @@ When the advisor tool is available, consult it at these three moments, and tell 
 
 1. **Before a plan locks:** save the blueprint and the outline without a status line first, consult the advisor on that file, apply what it changes, and only then add `Status: confirmed`. Consulting after the line is written is a mistake: note it in the run report. Also consult before the comments from a `revisi` Doc are applied.
 2. **The same error twice:** when a row hits the same error a second time, before the row goes to `error`.
-3. **Before calling it done:** after the stage's self-critique and before a row is set to `review` or `final-doc`.
+3. **Before calling it done:** after the last self-critique and before /export-docs (or the final Doc for `approved` rows), so its fixes land in the one Doc that gets made. Exporting first and then re-exporting after the advisor leaves an extra Doc in Drive: a mistake to note in the run report.
 
 Do not consult it for routine steps: reading or writing sheet cells, status updates, single tool retries.
 
