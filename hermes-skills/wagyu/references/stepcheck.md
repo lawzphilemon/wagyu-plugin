@@ -46,7 +46,7 @@ If they run it, update statuses from their answers.
 - `OPEN` → first rewrite the step to what you could verify (the doc's own route, or another verified route to the same outcome). Still `OPEN` → ask the user to cut it, run the walkthrough, or keep it with a visible `[VERIFY]` note. Kept steps become `ACCEPTED-OPEN`. Never ship one silently.
 - Update the free limits in the toolkit table with today's date.
 
-Apply fixes to `wagyu-output/<slug>/04-draft.md` in place. Save the report to `wagyu-output/<slug>/05-stepcheck.md`:
+Apply fixes to `wagyu-output/<slug>/04-draft.md` in place, then run the matching humanizer (`humanizer-id` / `humanizer-en`) on the rewritten steps only, keeping UI labels, code, and asset content untouched. Save the report to `wagyu-output/<slug>/05-stepcheck.md`:
 
 ```text
 Verified on: [date] | Browser: [which]
