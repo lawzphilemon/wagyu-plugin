@@ -65,7 +65,7 @@ Languages: `id`, `en`, or `id+en`. The second language is localized after verifi
 claude --agent wagyu:wagyu --advisor opus
 ```
 
-Then ask it to run the queue. It follows `/queue` as written, gives each row a Sonnet subagent, and hands read-only lookups (official docs and UI labels, free-tier limits, reader friction, competitor freebies, stepcheck evidence, existing `wagyu-output/` guides) to `wagyu-scout` on Haiku. It consults the advisor before the blueprint or outline locks, after the same error twice on a row, and before a row moves to `review` or `final-doc`. The advisor needs the Anthropic API and Claude Code with `/advisor` support; without it the agent runs those checks itself.
+Then ask it to run the queue. It follows `/queue` as written, gives each row a Sonnet subagent, and hands read-only lookups (official docs and UI labels, free-tier limits, reader friction, competitor freebies, stepcheck evidence) to `wagyu-scout` on Haiku. It consults the advisor before the blueprint or outline locks, after the same error twice on a row, and before a row moves to `review` or `final-doc`. The advisor needs the Anthropic API and Claude Code with `/advisor` support; without it the agent runs those checks itself.
 
 ## Guide page
 
