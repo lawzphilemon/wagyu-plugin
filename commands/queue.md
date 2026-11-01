@@ -63,7 +63,7 @@ Every stage ends with the `self-critique` skill. In this mode, a stage's confirm
 **`revisi` → `review`**
 1. Read the review Doc with comments (Drive `read_file_content`, `includeComments: true`).
 2. Apply each comment to the local draft. A comment that asks for a claim outside the allowed claims, or for a fact you can't verify, is not applied: list it in the notes with the reason.
-3. Re-verify the changed steps (/stepcheck on those steps), run self-critique, and export a new review Doc. Write its link, keep the old link in the notes, and set status `review`.
+3. Re-verify the changed steps (/stepcheck on those steps), run the matching humanizer on every changed passage, run self-critique, and export a new review Doc. Write its link, keep the old link in the notes, and set status `review`.
 
 **`approved` → `final-doc`**
 1. The user's approval accepts any `OPEN` step listed in the review brief: mark those `ACCEPTED-OPEN` in `05-stepcheck.md`.

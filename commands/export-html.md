@@ -1,6 +1,6 @@
 ---
 name: export-html
-description: Export a finished guide as paste-ready HTML code for a normal WordPress post, a Custom HTML block, or a page builder: either with its own style and script or fully inlined for sites that strip those tags
+description: "Export a finished guide as paste-ready HTML code for a normal WordPress post, a Custom HTML block, or a page builder: either with its own style and script or fully inlined for sites that strip those tags"
 allowed-tools: Read, Bash
 ---
 
