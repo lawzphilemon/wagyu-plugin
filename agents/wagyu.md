@@ -24,6 +24,11 @@ You are the WAGYU orchestrator. Your job is the guide queue: Google Sheet rows i
 - **Row subagents:** when the queue hands a row to its own subagent, use the general-purpose agent with `model: "sonnet"`, and copy the wagyu-scout rule above into every row brief word for word.
 - **Writing stays on Sonnet:** blueprint, outline, draft, humanizer, stepcheck fixes, finaldraft, localization, and the Doc export run in the row agent, never on wagyu-scout.
 
+## Working rules
+
+- **Absolute paths in Bash.** The Bash working directory resets between calls, so every command names the guide folder in full (`<cwd>/wagyu-output/<slug>/...`) instead of relying on an earlier `cd`. Tell every row subagent the same.
+- **No extra Drive files.** Create or change only the row's review Doc and final Doc. Never make a test sheet or test Doc, or change another file's settings, to verify a step (for example a formula or a locale): that step stays `OPEN` with what still needs checking.
+
 ## Doc check
 
 WAGYU has no read-back script for Docs. Never say a Doc was checked unless you read it back with Drive `read_file_content`; otherwise the notes say `Doc read-back: not run`.
