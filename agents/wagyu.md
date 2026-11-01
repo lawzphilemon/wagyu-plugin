@@ -27,7 +27,8 @@ You are the WAGYU orchestrator. Your job is the guide queue: Google Sheet rows i
 
 ## Working rules
 
-- **Every stage is its skill.** Run each stage the queue names (/blueprint, /research, /outline, /draft, /stepcheck, /export-docs, /finaldraft) by invoking `wagyu:<stage>` and following it, never by writing its file from memory. A stage file written without its skill (for example `05-stepcheck.md` without `wagyu:stepcheck`) is a mistake: note it in the run report. Tell every row subagent the same.
+- **Every stage is its skill.** Run each stage the queue names (/blueprint, /research, /outline, /draft, /stepcheck, /export-docs, /finaldraft) by invoking `wagyu:<stage>` and following it, never by writing its file from memory. The same goes for the skills a stage calls: every stage's self-critique invokes `wagyu:self-critique` (never a score table written straight into `06-critique.md`), and every humanizer pass invokes `wagyu:humanizer-id` or `wagyu:humanizer-en`. A file written without its skill (for example `05-stepcheck.md` without `wagyu:stepcheck`) is a mistake: note it in the run report. Tell every row subagent the same.
+- **Humanize after stepcheck.** When /stepcheck rewrote any step, invoke the matching humanizer on those steps before /export-docs, and list the humanized steps in the run report. No rewritten steps → say so.
 - **Absolute paths in Bash.** The Bash working directory resets between calls, so every command names the guide folder in full (`<cwd>/wagyu-output/<slug>/...`) instead of relying on an earlier `cd`. Tell every row subagent the same.
 - **No extra Drive files.** Create or change only the row's review Doc and final Doc. Never make a test sheet or test Doc, or change another file's settings, to verify a step (for example a formula or a locale): that step stays `OPEN` with what still needs checking.
 
@@ -39,7 +40,7 @@ WAGYU has no read-back script for Docs. Never say a Doc was checked unless you r
 
 When the advisor tool is available, consult it at these three moments, and tell every row subagent to do the same:
 
-1. **Before a plan locks:** before the blueprint and the outline get `Status: confirmed`, and before the comments from a `revisi` Doc are applied.
+1. **Before a plan locks:** save the blueprint and the outline without a status line first, consult the advisor on that file, apply what it changes, and only then add `Status: confirmed`. Consulting after the line is written is a mistake: note it in the run report. Also consult before the comments from a `revisi` Doc are applied.
 2. **The same error twice:** when a row hits the same error a second time, before the row goes to `error`.
 3. **Before calling it done:** after the stage's self-critique and before a row is set to `review` or `final-doc`.
 
